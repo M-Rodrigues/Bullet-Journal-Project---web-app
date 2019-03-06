@@ -1,0 +1,31 @@
+<ion-split-pane contentId="index-content">
+  <ion-menu contentId="index-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>The Index</ion-title>
+          <!-- <ion-buttons slot='start' routerLink='/login'>
+            <ion-icon slot='icon-only' name="log-out"></ion-icon>
+          </ion-buttons> -->
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide='false' *ngFor='let p of pages'>
+          <ion-item [routerLink]='p.url' routerDirection='root'>
+            {{p.title}}
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+
+    <ion-footer no-border>
+      <ion-button expand='block' fill='outline' color='tertiary' (click)='onLogout()'>
+        Sair
+        <ion-icon slot='end' name='log-out'></ion-icon>
+      </ion-button>
+    </ion-footer>
+  </ion-menu>
+
+  <ion-router-outlet id="index-content"></ion-router-outlet>
+</ion-split-pane>

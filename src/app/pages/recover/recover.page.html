@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Esqueci minha senha</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form (ngSubmit)="onRecoverPassword(myForm)" #myForm="ngForm">
+    <ion-item class="form-group">
+      <ion-label position="floating">E-mail</ion-label>
+      <ion-input class='form-control' type="email" name="email" [(ngModel)]="user.email" required></ion-input>
+    </ion-item>
+    <ion-button type="submit" expand="block" color="tertiary">Enviar Email</ion-button>
+  </form>
+</ion-content>
