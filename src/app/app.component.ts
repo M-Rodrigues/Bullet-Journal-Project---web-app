@@ -18,7 +18,9 @@ export class AppComponent {
     private auth: AuthenticationService,
     private router: Router
   ) {
+
     this.initializeApp();
+  
   }
 
   initializeApp() {

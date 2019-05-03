@@ -16,7 +16,6 @@ export const enum MyExc {
 
 // Recover
 
-
 // Daily Log
 
 // Monthly Log
@@ -36,7 +35,6 @@ export const enum MyRes {
 
 // Recover
 
-
 // Daily Log
 
 // Monthly Log
@@ -44,6 +42,5 @@ export const enum MyRes {
 // Future Log
 
 // Profile
-
 
 }

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  SERVER_ADDR: 'http://192.168.0.13:5000'
+  SERVER_ADDR: 'http://192.168.91.36:5000'
 };
 
 /*

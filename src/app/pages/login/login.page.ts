@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { MyRes } from 'src/app/interfaces/excecoes';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
@@ -13,10 +13,11 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class LoginPage implements OnInit {
   user:any = {email: null, senha: null}
-  
+
   constructor(
     private auth: AuthenticationService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
   ) {
     
   }
@@ -35,10 +36,17 @@ export class LoginPage implements OnInit {
       .then((res:any) => {
         this.auth.login(res.token)
         loading.dismiss()
+        console.log(res)
       })
-      .catch((err:any) => {
+      .catch(async (err:any) => {
         console.log(err)
         loading.dismiss()
+
+        const toast = await this.toastCtrl.create({
+          message: err.err,
+          duration: 2000
+        });
+        toast.present();
       })
   }
 }
