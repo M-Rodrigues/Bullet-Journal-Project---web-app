@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  SERVER_ADDR: 'http://192.168.91.36:5000'
+  SERVER_ADDR: 'http://localhost:5000'
+  // SERVER_ADDR: 'http://192.168.91.36:5000'
 };
 
 /*
