@@ -4,7 +4,7 @@ import { BulletHandlerService } from './../../services/bullet-handler.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +18,8 @@ export class RegisterPage implements OnInit {
     private usuariosService: UsuariosService,
     private bulletHandler: BulletHandlerService,
     private router: Router,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {

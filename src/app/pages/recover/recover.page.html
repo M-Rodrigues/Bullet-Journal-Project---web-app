@@ -10,9 +10,25 @@
 <ion-content padding>
   <form (ngSubmit)="onRecoverPassword(myForm)" #myForm="ngForm">
     <ion-item class="form-group">
-      <ion-label position="floating">E-mail</ion-label>
+      <ion-label position="stacked">E-mail</ion-label>
       <ion-input class='form-control' type="email" name="email" [(ngModel)]="user.email" required></ion-input>
     </ion-item>
-    <ion-button type="submit" expand="block" color="tertiary">Enviar Email</ion-button>
+    <ion-item class="form-group">
+      <ion-label position="stacked">Pergunta de segurança</ion-label>
+      <ion-input 
+        class='form-control' type="text" name="resposta" 
+        [(ngModel)]="user.resposta" placeholder="Qual a sua comida favorita?" required></ion-input>
+    </ion-item>
+    <ion-item class="form-group">
+      <ion-label position="stacked">Nova Sena</ion-label>
+      <ion-input class='form-control' type="password" name="new_psw" [(ngModel)]="user.new_psw" required></ion-input>
+    </ion-item>
+    <ion-item class="form-group">
+      <ion-label position="stacked">Confirmação de senha</ion-label>
+      <ion-input class='form-control' type="password" name="new_psw2" [(ngModel)]="user.new_psw2" required></ion-input>
+    </ion-item>
+
+
+    <ion-button type="submit" expand="block" color="tertiary" [disabled]="myForm.invalid">Trocar Senha</ion-button>
   </form>
 </ion-content>
