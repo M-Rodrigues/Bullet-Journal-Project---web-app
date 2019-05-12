@@ -45,6 +45,16 @@ export class BulletHandlerService {
     toast.present();
   }
 
+  showToastSuccess(msg: string) {
+    this.showToastResponseMessage(msg);
+  }
+  
+  showToastError(msg: string) {
+    this.showToastErrorMessage(msg);
+  }
+
+
+
   showAlerts() {
     this.showToastErrorMessage("Teste Mensagem de Erro");
     setTimeout(() => this.showToastResponseMessage("Teste Mensagem de Resposta"), 3000)

@@ -17,7 +17,8 @@ export class LoginPage implements OnInit {
   constructor(
     private auth: AuthenticationService,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private bulletHandler: BulletHandlerService
   ) {
     
   }
@@ -34,19 +35,23 @@ export class LoginPage implements OnInit {
 
     this.auth.loginWithEmailAndPassword(user.email, user.password)
       .then((res:any) => {
-        this.auth.login(res.token)
-        loading.dismiss()
-        console.log(res)
+        // Error Handler
+        if (res.status == 0) {
+          this.auth.login(res.token)
+        }
+        else if (res.status == 1)
+          this.bulletHandler.showToastError("Email não cadastrado.")
+        else if (res.status == 2)
+          this.bulletHandler.showToastError("Senha não confere.")
+        else if (!res.status)
+          this.bulletHandler.showToastError(JSON.stringify(res));
       })
-      .catch(async (err:any) => {
+      .catch((err:any) => {
         console.log(err)
+        this.bulletHandler.showToastError(JSON.stringify(err));
+      })
+      .finally(() => {
         loading.dismiss()
-
-        const toast = await this.toastCtrl.create({
-          message: err.err,
-          duration: 2000
-        });
-        toast.present();
       })
   }
 }

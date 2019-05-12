@@ -49,22 +49,7 @@ export class AuthenticationService {
       password: psw
     }
     
-    return new Promise((resolve, reject) => {
-      this.http.put(`${environment.SERVER_ADDR}/auth/login`, body).toPromise()
-        .then((res: any) => {
-          if (res.token) {
-            resolve(res);
-          } else {
-            reject(res);
-          }
-        })
-        .catch(err => reject(err))
-    })
-    // return new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     resolve({token: 'my-token'})
-    //   }, 1000)
-    // })
+    return this.http.put(`${environment.SERVER_ADDR}/auth/login`, body).toPromise()
   }
 
   logout() {
