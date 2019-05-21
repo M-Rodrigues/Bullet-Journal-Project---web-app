@@ -7,15 +7,39 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+  <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
+  <ion-grid>
+    <ion-row align-items-center>
+      <ion-col size='6'>
+        <ion-button
+          size='small'
+          expand='full'
+          shape='round'
+          color='tertiary'
+          [fill]="selectedPage == 0 ? 'solid' : 'clear'" 
+          (click)='goCalendarPage()'>Calendar Page</ion-button>
+        </ion-col>
+        <ion-col size='6'>
+          <ion-button 
+          size='small'
+          expand='full'
+          shape='round'
+          color='tertiary'
+          [fill]="selectedPage == 1 ? 'solid' : 'clear'" 
+          (click)='goTaskPage()'>Task Page</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <ion-slides scrollbar='true' [options]="slideOpts">
+
+  
+  <ion-slides #slides [options]="slideOpts">
     <ion-slide>
-      <h1>Calendar Page</h1>
+      <app-calendar-page></app-calendar-page>
     </ion-slide>
     <ion-slide>
-      <h1>Task Page</h1>
+      <app-task-page></app-task-page>
     </ion-slide>
   </ion-slides>
-
 </ion-content>
