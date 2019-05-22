@@ -43,7 +43,7 @@ export class FutureLogService implements FutureLogInterface {
   }
 
   getEntradas() {
-    console.log(this.calendar.nextMonthYear())
+    // console.log(this.calendar.nextMonthYear())
     return this.entradas;
   }
 }

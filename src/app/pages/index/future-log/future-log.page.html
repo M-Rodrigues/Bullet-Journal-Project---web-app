@@ -18,6 +18,8 @@
 </ion-header>
 
 <ion-content>
+  <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
+  
   <ion-card *ngFor='let meses of entradas_ftlog'>
     <ion-card-header>
       <ion-card-title>

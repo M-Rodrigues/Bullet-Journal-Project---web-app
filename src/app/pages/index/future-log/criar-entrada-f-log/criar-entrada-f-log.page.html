@@ -13,44 +13,50 @@
   <form (ngSubmit)="criarEntrada(myForm)" #myForm="ngForm">
     <ion-item class="form-group">
       <ion-label position="stacked">Data</ion-label>
-      <ion-datetime class='form-control' name="dataNasc" display-format="DD/MM/YYYY" picker-format="DD MMMM YYYY"
-        [(ngModel)]="user.dataNasc" required></ion-datetime>
+      <ion-datetime 
+        class='form-control' name="data" 
+        display-format="DD/MM/YYYY" 
+        picker-format="DD MMMM YYYY"
+        [(ngModel)]="entrada.data" required></ion-datetime>
     </ion-item>
 
     <ion-item class="form-group">
       <ion-label position="stacked">Descrição</ion-label>
-      <ion-input class='form-control' type="nome" name="nome" [(ngModel)]="user.nome" required></ion-input>
+      <ion-input 
+        class='form-control' 
+        name="descricao" 
+        [(ngModel)]="entrada.descricao" required></ion-input>
     </ion-item>
 
-    <ion-radio-group class='form-group' name="tipo">
+    <ion-radio-group class='form-group' name="tipo" [(ngModel)]="entrada.tipo" required>
       <ion-list-header>
         <ion-label>Tipo</ion-label>
       </ion-list-header>
 
       <ion-item>
         <ion-label>Tarefa</ion-label>
-        <ion-radio slot="start" value="biff" checked></ion-radio>
+        <ion-radio slot="start" value="0" checked></ion-radio>
       </ion-item>
   
       <ion-item>
         <ion-label>Evento</ion-label>
-        <ion-radio slot="start" value="griff"></ion-radio>
+        <ion-radio slot="start" value="1"></ion-radio>
       </ion-item>
     </ion-radio-group>
 
-    <ion-radio-group class='form-group' name="tipo">
+    <ion-radio-group class='form-group' name="signi" [(ngModel)]="entrada.signi" required> 
       <ion-list-header>
         <ion-label>Significado</ion-label>
       </ion-list-header>
 
       <ion-item>
         <ion-label>Nenhum</ion-label>
-        <ion-radio slot="start" value="biff" checked></ion-radio>
+        <ion-radio slot="start" value="0" checked></ion-radio>
       </ion-item>
   
       <ion-item>
         <ion-label>Prioridade</ion-label>
-        <ion-radio slot="start" value="griff"></ion-radio>
+        <ion-radio slot="start" value="1"></ion-radio>
       </ion-item>
     </ion-radio-group>
 

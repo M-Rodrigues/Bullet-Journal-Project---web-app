@@ -1,3 +1,4 @@
+import { CalendarService } from './../../../../services/calendar.service';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -8,14 +9,17 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./criar-entrada-f-log.page.scss'],
 })
 export class CriarEntradaFLogPage implements OnInit {
-  user:any = {}
+  entrada:any = {}
+  min_date:any = {}
 
   constructor(
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private calendar: CalendarService
   ) { }
 
   ngOnInit() {
-    
+    this.set_min_day()
+    // console.log(this.min_date)
   }
 
   onClose() {
@@ -23,8 +27,27 @@ export class CriarEntradaFLogPage implements OnInit {
   }
 
   criarEntrada(form:NgForm) {
-    console.log(form)
+    console.log(form.value)
+    let entrada = form.value
     
-    this.modalCtrl.dismiss(form.value)
+    // TODO validar data escolhida
+
+    this.modalCtrl.dismiss(entrada)
+  }
+
+  private set_min_day() {
+    // console.log(this.calendar.nextMonthYear())
+    let monthyear = this.calendar.nextMonthYear()
+    // monthyear == {mes: 5, mes_nome: "Junho", ano: 2019}
+    
+    let day = '01'
+    let month = monthyear.mes+1
+    let year = monthyear.ano
+    let months = ""
+
+    if (month < 10) months = '0' + month
+    else months = month.toString()
+
+    this.min_date = year + '-' + months + '-' + day
   }
 }
