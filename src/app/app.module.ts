@@ -12,6 +12,7 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor';
+import { CriarEntradaFLogPageModule } from './pages/index/future-log/criar-entrada-f-log/criar-entrada-f-log.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +22,9 @@ import { AuthInterceptor } from './services/auth.interceptor';
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     HttpClientModule,
-    AppRoutingModule],
+    AppRoutingModule,
+    CriarEntradaFLogPageModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,

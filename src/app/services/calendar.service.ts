@@ -45,4 +45,15 @@ export class CalendarService {
   private isBissexto(ano) {
     return (ano%4 == 0 && ano%100 != 0) || (ano%4 != 0 && ano%400 == 0)
   }
+
+  nextMonthYear() {
+    let date = new Date()
+    let m = date.getMonth()
+    let y = date.getFullYear()
+
+    if (m == 11) { m = 0, y++ }
+    else m++
+
+    return { mes: m, mes_nome: this.meses[m], ano: y}
+  }
 }

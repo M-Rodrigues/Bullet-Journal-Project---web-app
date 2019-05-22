@@ -5,12 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FutureLogPage } from './future-log.page';
+import { CriarEntradaFLogPage } from './criar-entrada-f-log.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: FutureLogPage,
+    component: CriarEntradaFLogPage
   }
 ];
 
@@ -19,8 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(routes)
   ],
-  declarations: [FutureLogPage]
+  declarations: [CriarEntradaFLogPage]
 })
-export class FutureLogPageModule {}
+export class CriarEntradaFLogPageModule {}

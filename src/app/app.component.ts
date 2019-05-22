@@ -30,7 +30,8 @@ export class AppComponent {
       
       this.auth.authenticationState.subscribe(state => {
         if (state) {
-          this.router.navigate(['index', 'daily-log']);
+          this.router.navigate(['index', 'future-log']);
+          // this.router.navigate(['index', 'daily-log']);
         } else {
           this.router.navigate(['login']);
         }
