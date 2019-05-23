@@ -3,6 +3,7 @@ import { CalendarService } from './../../../services/calendar.service';
 import { ModalController } from '@ionic/angular';
 import { FutureLogService } from './../../../services/future-log.service';
 import { Component, OnInit } from '@angular/core';
+import { Entrada } from 'src/app/interfaces/entrada';
 
 @Component({
   selector: 'app-future-log',
@@ -36,19 +37,21 @@ export class FutureLogPage implements OnInit {
     
     this.showProgressBar = true
     modal.onWillDismiss()
-      .then((entrada) => {
+      .then((res:any) => {
         console.log("::onWillDismiss")
-        console.log(entrada)
-        let aux_ano = parseInt(entrada.data.data.substring(0,4))
-        let aux_mes = parseInt(entrada.data.data.substring(5,7))
+
+        let entrada:Entrada = res.data
+        // console.log(entrada)
 
         // Adicionar na lista de entradas
         this.entradas_ftlog.forEach(mes => {
-          console.log(mes)
-          if (mes.data.mes == aux_mes && mes.data.ano == aux_ano) {
+          // console.log(mes)
+          if (mes.data.mes == entrada.data.mes && mes.data.ano == entrada.data.ano) {
             mes.entradas.push(entrada)
           }
         })
+
+        
         // TODO adicionar no BD
       })
       .catch((err) => {
@@ -56,5 +59,18 @@ export class FutureLogPage implements OnInit {
       .finally(() => {
         this.showProgressBar = false
       })  
+  }
+
+  removerEntrada(entrada: Entrada, flogId: number, entradaId: number) {
+    console.log(flogId)
+    console.log(entradaId)
+
+    // TODO remover entrada no banco
+
+    this.entradas_ftlog[flogId].entradas.splice(entradaId, 1)
+  }
+
+  getNomeMes(mes) {
+    return this.calendar.getMonth(mes-1)
   }
 }

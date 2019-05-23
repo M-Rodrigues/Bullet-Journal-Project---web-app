@@ -20,17 +20,25 @@
 <ion-content>
   <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
   
-  <ion-card *ngFor='let meses of entradas_ftlog'>
+  <ion-card *ngFor='let meses of entradas_ftlog; let ftlog_id = index'>
     <ion-card-header>
       <ion-card-title>
-          {{meses.data.mes_nome}}, {{meses.data.ano}}
+          {{getNomeMes(meses.data.mes)}}, {{meses.data.ano}}
       </ion-card-title>
     </ion-card-header>
     
-    <ion-item *ngFor='let entrada of meses.entradas'>
-      <ion-icon class='bullet-icon' size='small' name="star"></ion-icon>
-      <ion-icon class='bullet-icon' size='small' name="albums"></ion-icon>
-      {{entrada.dia}} | {{entrada.descricao}}
-    </ion-item>
+    <ion-item-sliding *ngFor='let entrada of meses.entradas; let entrada_id = index'>  
+      <ion-item>
+        <ion-icon class='bullet-icon' size='small' name="star"></ion-icon>
+        <ion-icon class='bullet-icon' size='small' name="albums"></ion-icon>
+        {{entrada.data.dia}} | {{entrada.descricao}}
+      </ion-item>
+  
+      <ion-item-options side="end">
+        <ion-item-option (click)="removerEntrada(entrada, ftlog_id, entrada_id)" color='danger'>
+          <ion-icon name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-card>
 </ion-content>

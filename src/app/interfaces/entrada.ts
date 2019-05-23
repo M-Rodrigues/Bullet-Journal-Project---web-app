@@ -1,3 +1,9 @@
+export interface Data {
+    dia?: number,
+    mes?: number,
+    ano?: number
+}
+
 export interface Prioridade {
     cod_propriedade: number;
     descricao: string;
@@ -13,15 +19,14 @@ export interface Tipo {
     descricao: string;
 }
 
-
 export interface Entrada {
-    cod_entrada: number;
+    cod_entrada?: number;
     descricao: string;
-    data?: Date;
-    tipo: Tipo;
-    status: Status;
-    prioridade: Prioridade;
-    filhas: Entrada[];
+    data?: Data;
+    tipo?: Tipo;
+    status?: Status;
+    prioridade?: Prioridade;
+    filhas?: Entrada[];
 }
 
 export interface EntradaInterface {

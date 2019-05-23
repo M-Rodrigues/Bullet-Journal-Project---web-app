@@ -2,6 +2,7 @@ import { CalendarService } from './../../../../services/calendar.service';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Entrada } from 'src/app/interfaces/entrada';
 
 @Component({
   selector: 'app-criar-entrada-f-log',
@@ -31,8 +32,18 @@ export class CriarEntradaFLogPage implements OnInit {
     let entrada = form.value
     
     // TODO validar data escolhida
+    
+    let res: Entrada = {
+      descricao: entrada.descricao,
+      data: {
+        dia: parseInt(entrada.data.substring(8,10)),
+        mes: parseInt(entrada.data.substring(5,7)),
+        ano: parseInt(entrada.data.substring(0,4))
+      }
+    }
 
-    this.modalCtrl.dismiss(entrada)
+    // console.log(res)
+    this.modalCtrl.dismiss(res)
   }
 
   private set_min_day() {
