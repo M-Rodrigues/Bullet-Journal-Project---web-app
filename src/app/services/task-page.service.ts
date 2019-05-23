@@ -27,24 +27,32 @@ export class TaskPageService implements TaskPageInterface{
   getEntradas() {
     return [
       {
-        name: "Oi la la la",
+        name: "Preparar apresentação de Lab Prog",
         signifierId: 0,
-        nested: ""
+        nested: "",
+        irrelevant: false,
+        complete: false
       },
       {
-        name: "Olá",
+        name: "Fazer trabalho de Microproc",
         signifierId: 1,
-        nested:"Fulano"
+        nested:"Fulano",
+        irrelevant: false,
+        complete: false
       },
       {
-        name: "Yeah",
+        name: "Estudar para as VFs",
         signifierId: 2,
-        nested: ""
+        nested: "",
+        irrelevant: false,
+        complete: false
       },
       {
-        name: ":)))",
+        name: "Fazer trabalho de BD",
         signifierId: 0,
-        nested: "Yaaaay"
+        nested: "Yaaaay",
+        irrelevant: false,
+        complete: false
       }
     ]
   }

@@ -34,46 +34,69 @@
 
 
     
-    <ion-slides #slides [options]="slideOpts">
-      <ion-slide>
+      <div *ngIf="selectedPage==0">
         <app-calendar-page></app-calendar-page>
-      </ion-slide>
-      <ion-slide>
+      </div>
+      <div *ngIf="selectedPage==1">
         <ion-list lines="none">
-          <ion-item *ngFor="let entrada of entradas_tp">
-            <ng-container *ngIf="entrada.signifierId!=2; else elseContent">
-              <ion-icon 
-                [style.color]='getIconColor(entrada.signifierId)'
+          <ion-item-sliding *ngFor="let entrada of entradas_tp; let tp_id = index">
+            <ion-item>
+              <ng-container *ngIf="entrada.signifierId!=2; else elseContent">
+                <ion-icon 
+                  [style.color]='getIconColor(entrada.signifierId)'
+                  size="small" 
+                  class="bullet-icon"
+                  [name]='getIconName(entrada.signifierId)'
+                  (click)='changeSign(entrada)'>
+                </ion-icon>
+              </ng-container>
+              <ng-template #elseContent>
+                <ion-button 
                 size="small" 
-                class="bullet-icon"
-                [name]='getIconName(entrada.signifierId)'
-                (click)='changeSign(entrada)'>
-              </ion-icon>
-            </ng-container>
-            <ng-template #elseContent>
-              <ion-button 
-              size="small" 
-              color="transparent" 
-              (click)='changeSign(entrada)'
-              class="empty-icon">
-              </ion-button>
-            </ng-template>
-            <ion-img 
-            src="https://cdn3.iconfinder.com/data/icons/objects/512/Dot-512.png"
-            class="bullet-img">
-          </ion-img>
-            {{ entrada.name }}
-            <!-- <ion-icon size="small" class="nested" name="radio-button-on" ></ion-icon>
-            {{ entrada.nested}} -->
-          </ion-item>
+                color="transparent" 
+                shape="round"
+                (click)='changeSign(entrada)'
+                class="empty-icon">
+                </ion-button>
+              </ng-template>
+              <ion-img 
+              [src]='getBulletSrc(tp_id)'
+              class="bullet-img">
+              </ion-img>
+              <ng-container *ngIf="entrada.irrelevant; else elseTemplate">
+                <s>{{ entrada.name }}</s>
+              </ng-container>
+              <ng-template #elseTemplate>
+                {{ entrada.name }}
+              </ng-template>
+              <!-- <ion-icon size="small" class="nested" name="radio-button-on" ></ion-icon>
+              {{ entrada.nested}} -->
+            </ion-item>
+            <ion-item-options side="end">
+                <ion-item-option (click)="removerTarefa(tp_id)" color='danger'>
+                  <ion-icon name="trash"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+            <ion-item-options side="start">
+                <ion-item-option color='success' (click)="changeStatusTask(tp_id)">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                  <!-- Finalizada -->
+                </ion-item-option>
+                <ion-item-option color='medium' (click)="changeIrrelevantTask(tp_id)">
+                    <ion-icon name="archive"></ion-icon>
+                    <!-- Irrelevante -->
+                </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
         </ion-list>
+
+
         <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="criarNovaEntradaTaskPage()">
             <ion-fab-button>
               <ion-icon name="add"></ion-icon>
             </ion-fab-button>
-          </ion-fab>        
-      </ion-slide>
-    </ion-slides>
+        </ion-fab>
+      </div>
 </ion-content>
 
 
