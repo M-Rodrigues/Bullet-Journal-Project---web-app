@@ -8,38 +8,70 @@
 </ion-header>
 
 <ion-content>
-  <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
-  <ion-grid>
-    <ion-row align-items-center>
-      <ion-col size='6'>
-        <ion-button
-          size='small'
-          expand='full'
-          shape='round'
-          color='tertiary'
-          [fill]="selectedPage == 0 ? 'solid' : 'clear'" 
-          (click)='goCalendarPage()'>Calendar Page</ion-button>
-        </ion-col>
+    <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
+    <ion-grid>
+      <ion-row align-items-center>
         <ion-col size='6'>
-          <ion-button 
-          size='small'
-          expand='full'
-          shape='round'
-          color='tertiary'
-          [fill]="selectedPage == 1 ? 'solid' : 'clear'" 
-          (click)='goTaskPage()'>Task Page</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+          <ion-button
+            size='small'
+            expand='full'
+            shape='round'
+            color='tertiary'
+            [fill]="selectedPage == 0 ? 'solid' : 'clear'" 
+            (click)='goCalendarPage()'>Calendar Page</ion-button>
+          </ion-col>
+          <ion-col size='6'>
+            <ion-button 
+            size='small'
+            expand='full'
+            shape='round'
+            color='tertiary'
+            [fill]="selectedPage == 1 ? 'solid' : 'clear'" 
+            (click)='goTaskPage()'>Task Page</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
 
-  
-  <ion-slides #slides [options]="slideOpts">
-    <ion-slide>
-      <app-calendar-page></app-calendar-page>
-    </ion-slide>
-    <ion-slide>
-      <app-task-page></app-task-page>
-    </ion-slide>
-  </ion-slides>
+    
+    <ion-slides #slides [options]="slideOpts">
+      <ion-slide>
+        <app-calendar-page></app-calendar-page>
+      </ion-slide>
+      <ion-slide>
+        <ion-list lines="none">
+          <ion-item *ngFor="let entrada of entradas_tp">
+            <ng-container *ngIf="entrada.signifierId!=2; else elseContent">
+              <ion-icon 
+                [style.color]='getIconColor(entrada.signifierId)'
+                size="small" 
+                class="bullet-icon" 
+                [name]='getIconName(entrada.signifierId)'
+                (click)='changeSign(entrada)'>
+              </ion-icon>
+            </ng-container>
+            <ng-template #elseContent>
+              <ion-button 
+              size="small" 
+              color="transparent" 
+              (click)='changeSign(entrada)'
+              class="empty-icon">
+              </ion-button>
+            </ng-template>
+            <ion-icon size="small" class="bullet-icon" name="radio-button-on" ></ion-icon>             
+            {{ entrada.name }}
+            <!-- <ion-icon size="small" class="nested" name="radio-button-on" ></ion-icon>
+            {{ entrada.nested}} -->
+          </ion-item>
+        </ion-list>
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="criarNovaEntradaTaskPage()">
+            <ion-fab-button>
+              <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+      </ion-slide>
+    </ion-slides>
 </ion-content>
+
+
+

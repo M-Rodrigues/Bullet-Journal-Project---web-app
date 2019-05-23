@@ -1,5 +1,5 @@
 import { ColeçãoInterface } from './colecao';
 
-export interface TaskPage extends ColeçãoInterface {
+export interface TaskPageInterface extends ColeçãoInterface {
 
 }
