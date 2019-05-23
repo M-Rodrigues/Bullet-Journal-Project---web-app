@@ -112,7 +112,8 @@ export class MonthlyLogPage implements OnInit {
             console.log(data)
             let obj = {
               name: data.name,
-              signifier: ""
+              signifierId: 2,
+              nested: ""
             }
 
             this.showProgressBar = true
@@ -120,7 +121,7 @@ export class MonthlyLogPage implements OnInit {
               this.showProgressBar = false  
             }, 2000)
 
-            this.entradas_tp.push(data)
+            this.entradas_tp.push(obj)
           }
         }
       ]

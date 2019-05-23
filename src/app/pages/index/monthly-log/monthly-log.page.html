@@ -45,7 +45,7 @@
               <ion-icon 
                 [style.color]='getIconColor(entrada.signifierId)'
                 size="small" 
-                class="bullet-icon" 
+                class="bullet-icon"
                 [name]='getIconName(entrada.signifierId)'
                 (click)='changeSign(entrada)'>
               </ion-icon>
@@ -58,7 +58,10 @@
               class="empty-icon">
               </ion-button>
             </ng-template>
-            <ion-icon size="small" class="bullet-icon" name="radio-button-on" ></ion-icon>             
+            <ion-img 
+            src="https://cdn3.iconfinder.com/data/icons/objects/512/Dot-512.png"
+            class="bullet-img">
+          </ion-img>
             {{ entrada.name }}
             <!-- <ion-icon size="small" class="nested" name="radio-button-on" ></ion-icon>
             {{ entrada.nested}} -->
@@ -68,7 +71,7 @@
             <ion-fab-button>
               <ion-icon name="add"></ion-icon>
             </ion-fab-button>
-          </ion-fab>
+          </ion-fab>        
       </ion-slide>
     </ion-slides>
 </ion-content>
