@@ -1,6 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { FutureLogInterface } from './../interfaces/colecoes/future-log';
 import { Injectable } from '@angular/core';
 import { CalendarService } from './calendar.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +28,15 @@ export class FutureLogService implements FutureLogInterface {
   ]
 
   constructor(
-    private calendar: CalendarService
+    private calendar: CalendarService,
+    private http: HttpClient
   ) { }
 
-  criarEntrada() {
+  criarEntrada(data) {
+    console.log("::on Future Log service")
+    console.log(data)
 
+    return this.http.post(`${environment.SERVER_ADDR}/future-log`, data.data).toPromise()
   }
 
   atualizarEntrada() {

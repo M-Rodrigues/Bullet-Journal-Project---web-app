@@ -1,9 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { CriarEntradaFLogPage } from './criar-entrada-f-log/criar-entrada-f-log.page';
 import { CalendarService } from './../../../services/calendar.service';
 import { ModalController } from '@ionic/angular';
 import { FutureLogService } from './../../../services/future-log.service';
 import { Component, OnInit } from '@angular/core';
 import { Entrada } from 'src/app/interfaces/entrada';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-future-log',
@@ -17,13 +19,18 @@ export class FutureLogPage implements OnInit {
   constructor(
     private ftlogService: FutureLogService,
     private modalCtrl: ModalController,
-    private calendar: CalendarService
+    private calendar: CalendarService,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
     console.log("::ngOnInit")
     this.entradas_ftlog = this.ftlogService.getEntradas();
     console.log(this.entradas_ftlog)
+
+    this.http.get(`${environment.SERVER_ADDR}/teste`, {}).toPromise()
+      .then((data) => console.log(data))
+      .catch(err => console.log(err))
   }
 
   async adicionarEntrada() {
@@ -53,6 +60,8 @@ export class FutureLogPage implements OnInit {
 
         
         // TODO adicionar no BD
+        this.ftlogService.criarEntrada(res)
+
       })
       .catch((err) => {
       })

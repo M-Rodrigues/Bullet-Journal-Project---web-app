@@ -33,13 +33,15 @@ export class CriarEntradaFLogPage implements OnInit {
     
     // TODO validar data escolhida
     
-    let res: Entrada = {
+    let res = {
       descricao: entrada.descricao,
       data: {
         dia: parseInt(entrada.data.substring(8,10)),
         mes: parseInt(entrada.data.substring(5,7)),
         ano: parseInt(entrada.data.substring(0,4))
-      }
+      },
+      tipo: parseInt(entrada.tipo),
+      signifier: parseInt(entrada.signi)
     }
 
     // console.log(res)
