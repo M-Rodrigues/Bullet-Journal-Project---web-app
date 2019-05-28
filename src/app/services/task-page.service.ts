@@ -1,15 +1,33 @@
 import { Injectable } from '@angular/core';
 import { TaskPageInterface } from '../interfaces/colecoes/task-page';
+import { CalendarService } from './calendar.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskPageService implements TaskPageInterface{
 
-  constructor() { }
+  constructor(
+    private calendarService : CalendarService,
+    private http : HttpClient
+  ) { }
 
-  criarEntrada() {
-
+  criarEntrada(descricao) {
+    // let novaEntrada = {
+    //   dia: (new Date()).getDate(),
+    //   mes: (new Date()).getMonth()+1,
+    //   ano: (new Date()).getFullYear(),
+    //   descricao: descricao           
+    // }
+    let novaEntrada = {
+      dia: 28,
+      mes: 5,
+      ano: 2019,
+      descricao: descricao           
+    }
+    return this.http.post(`${environment.SERVER_ADDR}/monthly-log/tp`, novaEntrada).toPromise()
   }
 
   atualizarEntrada() {

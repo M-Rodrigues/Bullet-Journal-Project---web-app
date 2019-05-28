@@ -127,6 +127,17 @@ export class MonthlyLogPage implements OnInit {
               this.showProgressBar = false  
             }, 2000)
 
+            
+            this.taskService.criarEntrada(data.name)
+              .then((data)=> {
+                console.log(data)
+
+                /* ... */
+              })
+              .catch((error)=> {
+                console.log(error)
+              })
+
             this.entradas_tp.push(obj)
           }
         }
