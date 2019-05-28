@@ -63,11 +63,18 @@
               [src]='getBulletSrc(tp_id)'
               class="bullet-img">
               </ion-img>
-              <ng-container *ngIf="entrada.irrelevant; else elseTemplate">
+              <ng-container *ngIf="entrada.irrelevant; else TaskRelevant">
                 <s>{{ entrada.name }}</s>
               </ng-container>
-              <ng-template #elseTemplate>
-                {{ entrada.name }}
+              <ng-template #TaskRelevant>
+                <ng-container *ngIf="entrada.complete; else TaskIncomplete">
+                  {{entrada.name}}
+                </ng-container>
+                <ng-template #TaskIncomplete>
+                    <div>
+                      <ion-input type="text" [value]="entrada.name" size=35></ion-input>
+                    </div>
+                </ng-template>
               </ng-template>
               <!-- <ion-icon size="small" class="nested" name="radio-button-on" ></ion-icon>
               {{ entrada.nested}} -->
