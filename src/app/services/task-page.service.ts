@@ -15,18 +15,13 @@ export class TaskPageService implements TaskPageInterface{
   ) { }
 
   criarEntrada(descricao) {
-    // let novaEntrada = {
-    //   dia: (new Date()).getDate(),
-    //   mes: (new Date()).getMonth()+1,
-    //   ano: (new Date()).getFullYear(),
-    //   descricao: descricao           
-    // }
     let novaEntrada = {
-      dia: 28,
-      mes: 5,
-      ano: 2019,
+      dia: (new Date()).getDate(),
+      mes: (new Date()).getMonth()+1,
+      ano: (new Date()).getFullYear(),
       descricao: descricao           
     }
+  
     return this.http.post(`${environment.SERVER_ADDR}/monthly-log/tp`, novaEntrada).toPromise()
   }
 

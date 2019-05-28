@@ -31,11 +31,6 @@ export class MonthlyLogPage implements OnInit {
   ) {
   }
   
-  // ionViewDidEnter() { 
-  //   console.log(this.slides)
-  //   this.slides.lockSwipes(true) 
-  // } 
-
 
   getIconName(id) {
     return this.signifier_tp[id]
@@ -127,7 +122,7 @@ export class MonthlyLogPage implements OnInit {
               this.showProgressBar = false  
             }, 2000)
 
-            
+
             this.taskService.criarEntrada(data.name)
               .then((data)=> {
                 console.log(data)
