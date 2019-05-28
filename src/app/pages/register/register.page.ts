@@ -34,18 +34,22 @@ export class RegisterPage implements OnInit {
 
     this.usuariosService.criarUsuario(user)
       .then((res: any) => {
-        if (res.message === "sucesso") {
+        if (res.status == 0) {
           this.bulletHandler.handleResponse({
             code: MyRes.SUCESSO_CRIAR_USUARIO,
             res: res
           })
 
-          loading.dismiss()
+          console.log(res.user)
+
+          // loading.dismiss()
           this.router.navigate(['login'])
         }
       })
       .catch((err: any) => {        
         console.log(err)
+      })
+      .finally(() => {
         loading.dismiss()
       })
   }

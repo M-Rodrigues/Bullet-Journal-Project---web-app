@@ -31,6 +31,7 @@ export class AuthenticationService {
   getTokenObservable() {
     return from(this.getToken())
     // return fromPromise(this.getToken())
+    
   }
 
   checkToken() {

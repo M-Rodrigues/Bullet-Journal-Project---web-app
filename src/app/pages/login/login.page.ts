@@ -19,12 +19,9 @@ export class LoginPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private bulletHandler: BulletHandlerService
-  ) {
-    
-  }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async onLogin(form: NgForm) { // TODO: validação do formulário | tratar todos os erros    
     let user = form.value;
@@ -33,11 +30,13 @@ export class LoginPage implements OnInit {
     const loading = await this.loadingCtrl.create()
     loading.present()
 
+    
     this.auth.loginWithEmailAndPassword(user.email, user.password)
       .then((res:any) => {
         // Error Handler
         if (res.status == 0) {
           this.auth.login(res.token)
+          console.log(res)
         }
         else if (res.status == 1)
           this.bulletHandler.showToastError("Email não cadastrado.")

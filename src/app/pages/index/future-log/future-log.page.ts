@@ -1,3 +1,4 @@
+import { BulletHandlerService } from './../../../services/bullet-handler.service';
 import { HttpClient } from '@angular/common/http';
 import { CriarEntradaFLogPage } from './criar-entrada-f-log/criar-entrada-f-log.page';
 import { CalendarService } from './../../../services/calendar.service';
@@ -20,17 +21,28 @@ export class FutureLogPage implements OnInit {
     private ftlogService: FutureLogService,
     private modalCtrl: ModalController,
     private calendar: CalendarService,
-    private http: HttpClient
+    private http: HttpClient,
+    private bjHandler: BulletHandlerService
   ) { }
 
   ngOnInit() {
     console.log("::ngOnInit")
-    this.entradas_ftlog = this.ftlogService.getEntradas();
+    this.entradas_ftlog = this.ftlogService.getEntradasStatic();
     console.log(this.entradas_ftlog)
 
     this.http.get(`${environment.SERVER_ADDR}/teste`, {}).toPromise()
-      .then((data) => console.log(data))
+      .then((data:any) => {
+        console.log(data)
+        if (data.status && data.status != 0) {
+          this.bjHandler.logout()
+        }
+      })
       .catch(err => console.log(err))
+
+    this.ftlogService.getEntradas()
+      .then((res) => {
+        console.log(res)
+      })
   }
 
   async adicionarEntrada() {
@@ -61,7 +73,10 @@ export class FutureLogPage implements OnInit {
         
         // TODO adicionar no BD
         this.ftlogService.criarEntrada(res)
+          .then(res => {
+            console.log(res)
 
+          })
       })
       .catch((err) => {
       })

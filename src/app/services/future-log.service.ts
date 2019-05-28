@@ -52,7 +52,10 @@ export class FutureLogService implements FutureLogInterface {
   }
 
   getEntradas() {
-    // console.log(this.calendar.nextMonthYear())
+    return this.http.get(`${environment.SERVER_ADDR}/future-log`).toPromise()
+  }
+
+  getEntradasStatic() {
     return this.entradas;
   }
 }

@@ -12,10 +12,9 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log(`AuthInterceptor:: ${req.method} -> ${req.url}`)
 
-        console.log("request needs authentication");
         return this.authService.getTokenObservable()
             .pipe(mergeMap((token:any) => {
-                console.log(token);
+                // console.log(token);
                 if (token) {
                     req = req.clone({
                         setHeaders: {
@@ -23,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
                         }
                     })
                 }
-                console.log(req)
+                // console.log(req)
                 return next.handle(req)
             }),)
     }

@@ -1,3 +1,4 @@
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ToastController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { CustomException, MyExc, CustomResponse, MyRes } from '../interfaces/excecoes';
@@ -6,7 +7,10 @@ import { CustomException, MyExc, CustomResponse, MyRes } from '../interfaces/exc
   providedIn: 'root'
 })
 export class BulletHandlerService {
-  constructor(private toastController: ToastController) { 
+  constructor(
+    private toastController: ToastController,
+    private auth: AuthenticationService
+    ) { 
   }
 
   handleError(error: CustomException) {
@@ -53,10 +57,13 @@ export class BulletHandlerService {
     this.showToastErrorMessage(msg);
   }
 
-
-
   showAlerts() {
     this.showToastErrorMessage("Teste Mensagem de Erro");
     setTimeout(() => this.showToastResponseMessage("Teste Mensagem de Resposta"), 3000)
   }
+
+  logout() {
+    return this.auth.logout()
+  }
+
 }
