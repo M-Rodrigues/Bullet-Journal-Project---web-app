@@ -37,8 +37,8 @@ export class TaskPageService implements TaskPageInterface{
     // return this.http.post(`${environment.SERVER_ADDR}/monthly-log/tp`, body).toPromise()
   }
 
-  removerEntrada() {
-
+  removerEntrada(cod_entrada) {
+    return this.http.delete(`${environment.SERVER_ADDR}/monthly-log/tp/${cod_entrada}`).toPromise()
   }
 
   apagarColeção() {
