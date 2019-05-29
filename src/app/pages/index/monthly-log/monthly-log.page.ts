@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, AlertController } from '@ionic/angular';
 import { TaskPageService } from 'src/app/services/task-page.service';
 import { BulletHandlerService } from 'src/app/services/bullet-handler.service';
+import { CalendarPageService } from 'src/app/services/calendar-page.service';
 
 @Component({
   selector: 'app-monthly-log',
@@ -27,17 +28,29 @@ export class MonthlyLogPage implements OnInit {
   constructor(
     private calendarService: CalendarService,
     private taskService: TaskPageService,
+    private calendarPageService: CalendarPageService,
     private alertCtrl: AlertController,
   ) {
 
     /* TESTE PARA RECUPERAR AS ENTRADAS DA TASK PAGE */
     this.taskService.getEntradasMonthYear((new Date()).getMonth()+1, (new Date()).getFullYear())
       .then(res => {
-        console.log("Sucesso GET ENTRADAS")
+        console.log("Sucesso GET ENTRADAS TP")
         console.log(res)
       })
       .catch(err => {
-        console.log("Erro GET ENTRADAS")
+        console.log("Erro GET ENTRADAS TP")
+        console.log(err)
+      })
+
+    /* TESTE PARA RECUPERAR AS ENTRADAS DA CALENDAR PAGE */
+    this.calendarPageService.getEntradasMonthYear((new Date()).getMonth()+1, (new Date()).getFullYear())
+      .then(res => {
+        console.log("Sucesso GET ENTRADAS CP")
+        console.log(res)
+      })
+      .catch(err => {
+        console.log("Erro GET ENTRADAS CP")
         console.log(err)
       })
 

@@ -19,12 +19,13 @@ export class CalendarPageService {
       ano: ano,
       descricao: descricao           
     }
-  
+      
     return this.http.post(`${environment.SERVER_ADDR}/monthly-log/cp`, novaEntrada).toPromise()
   }
 
   atualizarEntrada() {
-      // /* Modelo dos de como os dados devem ir para o servidor */
+    
+    // /* Modelo dos de como os dados devem ir para o servidor */
     // let body = {
     //   cod_entrada: ...,
     //   descricao: ...,

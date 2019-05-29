@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class TaskPageService implements TaskPageInterface{
+export class TaskPageService implements TaskPageInterface {
 
   constructor(
     private calendarService : CalendarService,
