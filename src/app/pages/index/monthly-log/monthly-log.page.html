@@ -3,7 +3,10 @@
     <ion-buttons slot='start'>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{getActiveMonth()}}</ion-title>
+    <ion-title>{{page_month}}</ion-title>
+    <ion-buttons slot="end">
+        <ion-icon name="calendar" (click)='openPicker()' size="large"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -97,13 +100,13 @@
           </ion-item-sliding>
         </ion-list>
 
-        <ion-footer no-border>
+        <!-- <ion-footer no-border> -->
             <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="criarNovaEntradaTaskPage()">
                 <ion-fab-button>
                   <ion-icon name="add"></ion-icon>
                 </ion-fab-button>
             </ion-fab>
-        </ion-footer>
+        <!-- </ion-footer> -->
       </div>
 </ion-content>
 
