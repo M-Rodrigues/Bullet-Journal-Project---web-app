@@ -4,9 +4,6 @@ import { IonSlides, AlertController } from '@ionic/angular';
 import { TaskPageService } from 'src/app/services/task-page.service';
 import { BulletHandlerService } from 'src/app/services/bullet-handler.service';
 
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-
 @Component({
   selector: 'app-monthly-log',
   templateUrl: './monthly-log.page.html',
@@ -31,12 +28,10 @@ export class MonthlyLogPage implements OnInit {
     private calendarService: CalendarService,
     private taskService: TaskPageService,
     private alertCtrl: AlertController,
-    private http: HttpClient
   ) {
 
     /* TESTE PARA RECUPERAR AS ENTRADAS DA TASK PAGE */
-    this.http.get(`${environment.SERVER_ADDR}/monthly-log/tp/${(new Date()).getMonth()+1}/${(new Date()).getFullYear()}`)
-      .toPromise()
+    this.taskService.getEntradasMonthYear((new Date()).getMonth()+1, (new Date()).getFullYear())
       .then(res => {
         console.log("Sucesso GET ENTRADAS")
         console.log(res)

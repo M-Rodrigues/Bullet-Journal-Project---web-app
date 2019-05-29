@@ -45,6 +45,10 @@ export class TaskPageService implements TaskPageInterface{
     
   }
 
+  getEntradasMonthYear(month, year) {
+    return this.http.get(`${environment.SERVER_ADDR}/monthly-log/tp/${month}/${year}`).toPromise()
+  }
+
   getEntradas() {
     return [
       {
