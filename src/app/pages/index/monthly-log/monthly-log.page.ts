@@ -4,6 +4,9 @@ import { IonSlides, AlertController } from '@ionic/angular';
 import { TaskPageService } from 'src/app/services/task-page.service';
 import { BulletHandlerService } from 'src/app/services/bullet-handler.service';
 
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-monthly-log',
   templateUrl: './monthly-log.page.html',
@@ -27,8 +30,22 @@ export class MonthlyLogPage implements OnInit {
   constructor(
     private calendarService: CalendarService,
     private taskService: TaskPageService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private http: HttpClient
   ) {
+
+    /* TESTE PARA RECUPERAR AS ENTRADAS DA TASK PAGE */
+    this.http.get(`${environment.SERVER_ADDR}/monthly-log/tp/${(new Date()).getMonth()+1}/${(new Date()).getFullYear()}`)
+      .toPromise()
+      .then(res => {
+        console.log("Sucesso GET ENTRADAS")
+        console.log(res)
+      })
+      .catch(err => {
+        console.log("Erro GET ENTRADAS")
+        console.log(err)
+      })
+
   }
   
   // ionViewDidEnter() { 
@@ -123,9 +140,9 @@ export class MonthlyLogPage implements OnInit {
             }
 
             this.showProgressBar = true
-            setTimeout(() => {
-              this.showProgressBar = false  
-            }, 2000)
+            // setTimeout(() => {
+            //   this.showProgressBar = false  
+            // }, 2000)
 
             
             this.taskService.criarEntrada(data.name)
@@ -136,6 +153,9 @@ export class MonthlyLogPage implements OnInit {
               })
               .catch((error)=> {
                 console.log(error)
+              })
+              .finally(() => {
+                this.showProgressBar = false
               })
 
             this.entradas_tp.push(obj)
