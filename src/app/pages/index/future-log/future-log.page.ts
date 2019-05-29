@@ -21,7 +21,6 @@ export class FutureLogPage implements OnInit {
     private ftlogService: FutureLogService,
     private modalCtrl: ModalController,
     private calendar: CalendarService,
-    private http: HttpClient,
     private bjHandler: BulletHandlerService
   ) { }
 
@@ -29,20 +28,6 @@ export class FutureLogPage implements OnInit {
     console.log("::ngOnInit")
     this.entradas_ftlog = this.ftlogService.getEntradasStatic();
     console.log(this.entradas_ftlog)
-
-    this.http.get(`${environment.SERVER_ADDR}/teste`, {}).toPromise()
-      .then((data:any) => {
-        console.log(data)
-        if (data.status && data.status != 0) {
-          this.bjHandler.logout()
-        }
-      })
-      .catch(err => console.log(err))
-
-    this.ftlogService.getEntradas()
-      .then((res) => {
-        console.log(res)
-      })
   }
 
   async adicionarEntrada() {
@@ -69,14 +54,6 @@ export class FutureLogPage implements OnInit {
             mes.entradas.push(entrada)
           }
         })
-
-        
-        // TODO adicionar no BD
-        this.ftlogService.criarEntrada(res)
-          .then(res => {
-            console.log(res)
-
-          })
       })
       .catch((err) => {
       })
@@ -90,7 +67,6 @@ export class FutureLogPage implements OnInit {
     console.log(entradaId)
 
     // TODO remover entrada no banco
-
     this.entradas_ftlog[flogId].entradas.splice(entradaId, 1)
   }
 

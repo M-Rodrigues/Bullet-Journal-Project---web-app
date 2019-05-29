@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class FutureLogService implements FutureLogInterface {
+export class FutureLogService {
   entradas: any[] = [
     {
       data: {
