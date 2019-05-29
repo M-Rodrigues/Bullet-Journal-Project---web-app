@@ -26,7 +26,6 @@ export class TaskPageService implements TaskPageInterface{
   }
 
   atualizarEntrada() {
-
     // /* Modelo dos de como os dados devem ir para o servidor */
     // let body = {
     //   cod_entrada: ...,
