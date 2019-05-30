@@ -12,7 +12,7 @@ import { CalendarPageService } from 'src/app/services/calendar-page.service';
 })
 export class MonthlyLogPage implements OnInit {
   // @ViewChild('slides') slides: IonSlides
-  page_month: any
+  page_month_year: any
   entradas_cp: any[] = []
   entradas_tp: any[] = []
   signifier_tp: any[] = ["star", "alert"]
@@ -33,6 +33,7 @@ export class MonthlyLogPage implements OnInit {
     private pickerCtrl: PickerController
   ) {
 
+  
     /* TESTE PARA RECUPERAR AS ENTRADAS DA TASK PAGE */
     this.taskService.getEntradasMonthYear((new Date()).getMonth() + 1, (new Date()).getFullYear())
       .then(res => {
@@ -79,8 +80,14 @@ export class MonthlyLogPage implements OnInit {
                   entrada.name = entrada.descricao
                 })
 
+                let obj={
+                  nome_mes: res.data.nome_mes,
+                  mes: res.data.mes,
+                  ano: res.data.ano
+                }
+                this.page_month_year = obj
                 this.entradas_tp = res.data.entradas
-                this.page_month = res.data.nome_mes
+                
                 console.log(res)
               })
 
@@ -145,7 +152,6 @@ export class MonthlyLogPage implements OnInit {
     await picker.present();
   }
 
-
   getIconName(id) {
     return this.signifier_tp[id]
   }
@@ -156,6 +162,12 @@ export class MonthlyLogPage implements OnInit {
 
   ngOnInit() {
     let date = new Date()
+    this.page_month_year= {
+      nome_mes: this.calendarService.getMonth(date.getMonth()),
+      mes: date.getMonth()+1,
+      ano: date.getFullYear()
+    }
+    
     this.taskService.getEntradasMonthYear(date.getMonth()+1,date.getFullYear())
     .then( (res : any) =>{
       if(res.data.entradas===null) res.data.entradas=[]
@@ -169,7 +181,12 @@ export class MonthlyLogPage implements OnInit {
       })
 
       this.entradas_tp = res.data.entradas
-      this.page_month = res.data.nome_mes
+      let obj={
+        nome_mes: res.data.nome_mes,
+        mes: res.data.mes,
+        ano: res.data.ano
+      }
+      this.page_month_year = obj
       console.log(res)
     })
 
@@ -222,18 +239,22 @@ export class MonthlyLogPage implements OnInit {
             let obj = {
               name: data.name,
               signifierId: 2,
-              nested: ""
             }
 
             this.showProgressBar = true
-            // setTimeout(() => {
-            //   this.showProgressBar = false  
-            // }, 2000)
-
-
-            this.taskService.criarEntrada(data.name)
-              .then((data) => {
-                console.log(data)
+          
+            this.taskService.criarEntrada(data.name,this.page_month_year)
+              .then((res : any) => {
+                console.log(res)
+                console.log(this.page_month_year)
+                let nova_entrada ={
+                  name: obj.name,
+                  signifierId: obj.signifierId,
+                  cod_entrada: res.data.cod_entrada,
+                  complete:false,
+                  irrelevant: false
+                }
+                this.entradas_tp.push(nova_entrada)
 
                 /* ... */
               })
@@ -244,7 +265,7 @@ export class MonthlyLogPage implements OnInit {
                 this.showProgressBar = false
               })
 
-            this.entradas_tp.push(obj)
+            
           }
         }
       ]
@@ -255,14 +276,50 @@ export class MonthlyLogPage implements OnInit {
 
   changeSign(entrada) {
     entrada.signifierId = (entrada.signifierId + 1) % 3
+    this.showProgressBar=true
+
+    this.taskService.atualizarEntrada(entrada)
+      .then((res)=>{
+        console.log(res)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      .finally(()=>{
+        this.showProgressBar=false
+      })
   }
 
   removerTarefa(tp_id) {
-    this.entradas_tp.splice(tp_id, 1)
+    this.showProgressBar = true
+
+    this.taskService.removerEntrada(this.entradas_tp[tp_id].cod_entrada)
+      .then((res)=>{
+        console.log(res)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      .finally(()=>{
+        this.showProgressBar=false
+      })
+    this.entradas_tp.splice(tp_id,1)
   }
 
   changeIrrelevantTask(id) {
     this.entradas_tp[id].irrelevant = !(this.entradas_tp[id].irrelevant);
+    this.showProgressBar = true
+
+    this.taskService.atualizarEntrada(this.entradas_tp[id])
+      .then((res: any) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        this.showProgressBar = false
+      })
   }
 
   getBulletSrc(id) {
@@ -276,6 +333,33 @@ export class MonthlyLogPage implements OnInit {
 
   changeStatusTask(id) {
     this.entradas_tp[id].complete = !(this.entradas_tp[id].complete);
+    this.showProgressBar = true
+
+    this.taskService.atualizarEntrada(this.entradas_tp[id])
+      .then((res: any)=> {
+        console.log(res)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      .finally(()=>{
+        this.showProgressBar=false
+      })
+  }
+
+  atualizaDescricao(entrada){
+    this.showProgressBar = true
+  
+    this.taskService.atualizarEntrada(entrada)
+      .then((res: any)=> {
+        console.log(res)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      .finally(()=>{
+        this.showProgressBar=false
+      })
   }
 
 }

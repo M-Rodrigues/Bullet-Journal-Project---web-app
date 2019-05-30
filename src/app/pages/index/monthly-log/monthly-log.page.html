@@ -3,7 +3,7 @@
     <ion-buttons slot='start'>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{page_month}}</ion-title>
+    <ion-title>{{page_month_year.nome_mes}}</ion-title>
     <ion-buttons slot="end">
         <ion-icon name="calendar" (click)='openPicker()' size="large"></ion-icon>
     </ion-buttons>
@@ -75,7 +75,7 @@
                 </ng-container>
                 <ng-template #TaskIncomplete>
                     <div>
-                      <ion-input type="text" [value]="entrada.name" size=35></ion-input>
+                      <ion-input type="text" [(ngModel)]="entrada.name" size=35 (ionBlur)= "atualizaDescricao(entrada)"></ion-input>
                     </div>
                 </ng-template>
               </ng-template>
