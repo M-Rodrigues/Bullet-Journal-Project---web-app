@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Usuario } from '../interfaces/usuario';
+import {from} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,10 @@ export class AuthenticationService {
 
   getToken() {
     return this.storage.get(this.TOKEN_KEY); 
+  }
+
+  getTokenObservable(){
+    return from(this.getToken())
   }
 
   checkToken() {
