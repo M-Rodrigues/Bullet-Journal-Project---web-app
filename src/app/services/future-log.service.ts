@@ -36,7 +36,15 @@ export class FutureLogService {
     console.log("::on Future Log service")
     console.log(data)
 
-    return this.http.post(`${environment.SERVER_ADDR}/future-log`, data.data).toPromise()
+    let body = {
+      descricao: data.descricao,
+      dia: data.data.dia,
+      mes: data.data.mes,
+      ano: data.data.ano,
+      cod_tipo: data.tipo
+    }
+
+    return this.http.post(`${environment.SERVER_ADDR}/future-log`, body).toPromise()
   }
 
   atualizarEntrada() {
@@ -49,6 +57,15 @@ export class FutureLogService {
 
   apagarColeção() {
 
+  }
+
+  getEntradasMonth() {
+    let date = new Date()
+    return this.http.get(`${environment.SERVER_ADDR}/future-log/${date.getMonth()+1}/${date.getFullYear()}`).toPromise()
+  }
+  getEntradasFullYear() {
+    let date = new Date()
+    return this.http.get(`${environment.SERVER_ADDR}/future-log/full-year/${date.getMonth()+1}/${date.getFullYear()}`).toPromise()
   }
 
   getEntradas() {

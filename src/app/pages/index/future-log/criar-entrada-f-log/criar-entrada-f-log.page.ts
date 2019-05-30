@@ -1,3 +1,4 @@
+import { FutureLogService } from './../../../../services/future-log.service';
 import { CalendarService } from './../../../../services/calendar.service';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
@@ -15,7 +16,8 @@ export class CriarEntradaFLogPage implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private calendar: CalendarService
+    private calendar: CalendarService,
+    private flService: FutureLogService
   ) { }
 
   ngOnInit() {
@@ -28,11 +30,10 @@ export class CriarEntradaFLogPage implements OnInit {
   }
 
   criarEntrada(form:NgForm) {
-    console.log(form.value)
+    // console.log(form.value)
     let entrada = form.value
     
     // TODO validar data escolhida
-    
     let res = {
       descricao: entrada.descricao,
       data: {
@@ -40,12 +41,19 @@ export class CriarEntradaFLogPage implements OnInit {
         mes: parseInt(entrada.data.substring(5,7)),
         ano: parseInt(entrada.data.substring(0,4))
       },
-      tipo: parseInt(entrada.tipo),
-      signifier: parseInt(entrada.signi)
+      tipo: parseInt(entrada.tipo)
     }
 
-    // console.log(res)
-    this.modalCtrl.dismiss(res)
+    console.log(res)
+    this.flService.criarEntrada(res)
+      .then((data:any) => {
+        // console.log(data)
+        this.modalCtrl.dismiss(data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
   }
 
   private set_min_day() {

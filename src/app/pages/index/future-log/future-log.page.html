@@ -20,18 +20,19 @@
 <ion-content>
   <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
   
-  <ion-card *ngFor='let meses of entradas_ftlog; let ftlog_id = index'>
+  <ion-card *ngFor='let mes_atual of entradas_ftlog; let ftlog_id = index'>
     <ion-card-header>
       <ion-card-title>
-          {{getNomeMes(meses.data.mes)}}, {{meses.data.ano}}
+          {{mes_atual.nome_mes}}, {{mes_atual.ano}}
       </ion-card-title>
     </ion-card-header>
     
-    <ion-item-sliding *ngFor='let entrada of meses.entradas; let entrada_id = index'>  
+    <ion-item-sliding *ngFor='let entrada of mes_atual.entradas; let entrada_id = index'>  
       <ion-item>
         <ion-icon class='bullet-icon' size='small' name="star"></ion-icon>
         <ion-icon class='bullet-icon' size='small' name="albums"></ion-icon>
-        {{entrada.data.dia}} | {{entrada.descricao}}
+        
+        {{entrada.full_date.dia}} | {{entrada.descricao}}
       </ion-item>
   
       <ion-item-options side="end">

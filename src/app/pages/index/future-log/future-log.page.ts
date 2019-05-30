@@ -1,12 +1,12 @@
-import { BulletHandlerService } from './../../../services/bullet-handler.service';
-import { HttpClient } from '@angular/common/http';
-import { CriarEntradaFLogPage } from './criar-entrada-f-log/criar-entrada-f-log.page';
-import { CalendarService } from './../../../services/calendar.service';
-import { ModalController } from '@ionic/angular';
-import { FutureLogService } from './../../../services/future-log.service';
 import { Component, OnInit } from '@angular/core';
-import { Entrada } from 'src/app/interfaces/entrada';
-import { environment } from 'src/environments/environment';
+
+import { ModalController } from '@ionic/angular';
+
+import { CalendarService } from './../../../services/calendar.service';
+import { FutureLogService } from './../../../services/future-log.service';
+import { BulletHandlerService } from './../../../services/bullet-handler.service';
+
+import { CriarEntradaFLogPage } from './criar-entrada-f-log/criar-entrada-f-log.page';
 
 @Component({
   selector: 'app-future-log',
@@ -27,7 +27,18 @@ export class FutureLogPage implements OnInit {
   ngOnInit() {
     console.log("::ngOnInit")
     this.entradas_ftlog = this.ftlogService.getEntradasStatic();
-    console.log(this.entradas_ftlog)
+  
+    this.updateEntradasMonth()
+
+    this.ftlogService.getEntradasFullYear()
+      .then(res => {
+        console.log('Entradas Full Year')
+        console.log(res)
+      })
+      .catch(err => {
+        console.log('Entradas Full Year::Erro')
+        console.log(err)
+      })
   }
 
   async adicionarEntrada() {
@@ -44,16 +55,24 @@ export class FutureLogPage implements OnInit {
       .then((res:any) => {
         console.log("::onWillDismiss")
 
-        let entrada:Entrada = res.data
-        // console.log(entrada)
-
+        res = res.data
+        console.log(res)
+        
         // Adicionar na lista de entradas
-        this.entradas_ftlog.forEach(mes => {
-          // console.log(mes)
-          if (mes.data.mes == entrada.data.mes && mes.data.ano == entrada.data.ano) {
-            mes.entradas.push(entrada)
+        let dia = parseInt(res.entrada.data.substring(0,2))
+        let mes = parseInt(res.entrada.data.substring(2,4))
+        let ano = parseInt(res.entrada.data.substring(4,8))       
+        res.entrada.data = { dia:dia, mes:mes, ano:ano };
+        
+        this.entradas_ftlog.forEach(el => {
+          console.log(el)
+          if (el.data.mes == mes && el.data.ano == ano) {
+            console.log('Encontrei!')
+            el.entradas.push(res.entrada)
           }
         })
+
+        // console.log(entrada)
       })
       .catch((err) => {
       })
@@ -62,7 +81,7 @@ export class FutureLogPage implements OnInit {
       })  
   }
 
-  removerEntrada(entrada: Entrada, flogId: number, entradaId: number) {
+  removerEntrada(entrada, flogId: number, entradaId: number) {
     console.log(flogId)
     console.log(entradaId)
 
@@ -72,5 +91,20 @@ export class FutureLogPage implements OnInit {
 
   getNomeMes(mes) {
     return this.calendar.getMonth(mes-1)
+  }
+
+  private updateEntradasMonth() {
+    this.ftlogService.getEntradasMonth()
+      .then((res:any) => {
+        console.log('Entradas Month')
+        console.log(res)
+        if (res.status == 0) {
+          this.entradas_ftlog = res.data
+        }
+      })
+      .catch(err => {
+        console.log('Entradas Month::Erro')
+        console.log(err)
+      })
   }
 }
