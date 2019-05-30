@@ -40,6 +40,49 @@
       <div *ngIf="selectedPage==0">
        <ion-list lines="none">
          <ion-item *ngFor="let element of entradas_cp let cp_id= index">
+          <ng-container *ngIf="element.entradas==null; else entradasPreenchido">
+            <!-- Sem signifier e sem entradas -->
+            <ion-button 
+              size="small" 
+              color="transparent" 
+              shape="round"
+              (click)='changeSign(entrada)'
+              class="empty-icon">
+            </ion-button>
+          </ng-container>
+          <ng-template #entradasPreenchido>
+            <ng-container *ngIf="element.entradas[0].cod_prioridade==1; else signifierExiste">
+             <!-- Tem entrada mas sem signifier -->
+              <ion-button 
+                size="small" 
+                color="transparent" 
+                shape="round"
+                (click)='changeSign(entrada)'
+                class="empty-icon">
+              </ion-button>
+            </ng-container>
+            <ng-template #signifierExiste>
+              <ng-container *ngIf="element.entradas[0].cod_prioridade==2; else signifierCriativo">
+                <!-- Tem signifier estrelinha -->
+                <ion-icon 
+                  [style.color]="goldenrod"
+                  size= "small" 
+                  class= "bullet-icon"
+                  [name]= "star">
+                </ion-icon>
+              </ng-container>
+              <ng-template #signifierCriativo>
+                <!-- Tem signifier exclamação -->
+                <ion-icon 
+                  [style.color]="pink"
+                  size= "small" 
+                  class= "bullet-icon"
+                  [name]= "alert">
+                </ion-icon>
+              </ng-template> 
+            </ng-template>
+          </ng-template>
+
             <div class="dia">
               {{element.dia}}
             </div> 
