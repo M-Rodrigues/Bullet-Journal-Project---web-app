@@ -7,6 +7,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+  <ion-card *ngFor = 'let do_dia of meu_dl; let meu_dl_id = index'>
+    <ion-card-header>
+      <ion-card-title>{{do_dia.dia}}/{{do_dia.mes}}/{{do_dia.ano}}</ion-card-title>
+      <ion-card-subtitle>{{do_dia.dia_semana_nome}}</ion-card-subtitle>
+    </ion-card-header>
 
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
+      <ion-fab-button>
+        <ion-icon name="add-"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-card>
 </ion-content>

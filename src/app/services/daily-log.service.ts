@@ -31,6 +31,7 @@ export class DailyLogService {
   getEntradasLastMonth(dia, mes, ano) {
     return this.http.get(`${environment.SERVER_ADDR}/daily-log/last-month/${dia}/${mes}/${ano}`).toPromise()
   }
+  
     /*  GET /daily-log
     ::  consulta todas entradas de daily-log do usuario
     */
@@ -42,7 +43,7 @@ export class DailyLogService {
     ::  atualiza dados de uma entrada do daily log
     */
   atualizaEntrada() {
-    return this.http.put(`${environment.SERVER_ADDR}/daily-log`, data).toPromise()
+    return this.http.put(`${environment.SERVER_ADDR}/daily-log`,{}).toPromise()
   }
 
   /*  POST /daily-log
