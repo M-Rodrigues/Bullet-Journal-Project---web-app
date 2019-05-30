@@ -167,7 +167,9 @@ export class MonthlyLogPage implements OnInit {
       mes: date.getMonth()+1,
       ano: date.getFullYear()
     }
-    
+    this.entradas_tp = []
+    this.showProgressBar=true
+
     this.taskService.getEntradasMonthYear(date.getMonth()+1,date.getFullYear())
     .then( (res : any) =>{
       if(res.data.entradas===null) res.data.entradas=[]
@@ -192,6 +194,9 @@ export class MonthlyLogPage implements OnInit {
 
     .catch( (err) => {
       console.log(err);
+    })
+    .finally(()=>{
+      this.showProgressBar=false
     })
   } 
 
