@@ -168,6 +168,7 @@ export class MonthlyLogPage implements OnInit {
       ano: date.getFullYear()
     }
     this.entradas_tp = []
+    this.entradas_cp = []
     this.showProgressBar=true
 
     this.taskService.getEntradasMonthYear(date.getMonth()+1,date.getFullYear())
@@ -198,6 +199,18 @@ export class MonthlyLogPage implements OnInit {
     .finally(()=>{
       this.showProgressBar=false
     })
+
+    this.showProgressBar=true
+    this.calendarPageService.getEntradasMonthYear(date.getMonth()+1, date.getFullYear())
+      .then((res: any)=>{
+        this.entradas_cp = res.data
+      })
+      .catch( (err) => {
+        console.log(err);
+      })
+      .finally(()=>{
+        this.showProgressBar=false
+      })
   } 
 
   goCalendarPage() {
@@ -365,6 +378,12 @@ export class MonthlyLogPage implements OnInit {
       .finally(()=>{
         this.showProgressBar=false
       })
+  }
+
+  getEntradaCP(id){
+    if(this.entradas_cp[id].entradas!= null){
+      return this.entradas_cp[id].entradas[0].descricao;
+    }
   }
 
 }

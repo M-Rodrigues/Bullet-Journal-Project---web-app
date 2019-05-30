@@ -36,10 +36,27 @@
     </ion-grid>
 
 
-    
+      <!-- Calendar Page -->
       <div *ngIf="selectedPage==0">
-        <app-calendar-page></app-calendar-page>
+       <ion-list lines="none">
+         <ion-item *ngFor="let element of entradas_cp let cp_id= index">
+            <div class="dia">
+              {{element.dia}}
+            </div> 
+            <div class="dia_semana">
+              {{element.dia_semana_nome[0]}}
+            </div>
+            <div>
+              {{getEntradaCP(cp_id)}}
+            </div>
+         </ion-item>
+       </ion-list>
       </div>
+
+
+
+      
+      <!-- Task Page -->
       <div *ngIf="selectedPage==1">
         <ion-list lines="none">
           <ion-item-sliding *ngFor="let entrada of entradas_tp; let tp_id = index">
