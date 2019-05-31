@@ -44,8 +44,15 @@ export class DailyLogService {
   /*  PUT /daily-log
     ::  atualiza dados de uma entrada do daily log
     */
-  atualizaEntrada() {
-    return this.http.put(`${environment.SERVER_ADDR}/daily-log`,{}).toPromise()
+  atualizaEntrada(entrada) {
+    let body = {
+      cod_entrada: entrada.cod_entrada,
+      descricao: entrada.descricao,
+      cod_prioridade: entrada.cod_prioridade,
+      cod_status: entrada.cod_status,
+      cod_tipo: entrada.cod_tipo
+    }
+    return this.auth.checkAuth(this.http.put(`${environment.SERVER_ADDR}/daily-log`,body).toPromise())
   }
 
   /*  POST /daily-log
@@ -65,4 +72,7 @@ export class DailyLogService {
   /*  DELETE /daily-log/:id
     ::  remove o uma entrada do daily log
     */
+  removerEntrada(cod_entrada) {
+    return this.auth.checkAuth(this.http.delete(`${environment.SERVER_ADDR}/daily-log/${cod_entrada}`).toPromise())
+  }
 }

@@ -12,6 +12,7 @@ export class DailyLogPage implements OnInit {
   meu_dl:any[] = []
 
   showProgressBar:boolean = false;
+  old_entrada:any;
 
   constructor(
     private DLService: DailyLogService,
@@ -26,18 +27,7 @@ export class DailyLogPage implements OnInit {
   }
 
   ngOnInit() {
-    this.DLService.getEntradasLastMonth(this.today.dia, this.today.mes, this.today.ano)
-      .then((res:any) => {
-        console.log(res)
-
-        if (res.status === 0) {
-          res.data.map(el => { if (el.entradas == null) el.entradas = [] })
-          this.meu_dl = res.data
-        } else {
-          // Tratar os erros aqui
-        }
-      })
-      .catch(err => console.log(err))
+    this.refreshEntradasLastMonth()
   }
 
   async criarNovaEntrada(dia_escolhido, id) {
@@ -94,4 +84,59 @@ export class DailyLogPage implements OnInit {
     await alert.present();
   }
 
+  atualizarEntrada(entrada, entrada_id, dl_id) {
+    // Atualizar entrada no Servidor
+    this.showProgressBar = true
+    this.DLService.atualizaEntrada(entrada)
+      .then((res:any) => {
+        if (res.status === 0) {
+          this.meu_dl[dl_id].entradas[entrada_id] = entrada
+        } else {
+          console.log("Tratar erros ao atualizar entrada do daily-log")
+        }
+      })
+      .catch((err:any) => {
+        console.log(err)
+        console.log("Tratar erros ao atualizar entrada do daily-log")
+      })
+      .finally(() => this.showProgressBar = false)
+  }
+
+  removerEntrada(entrada, entrada_id, dl_id) {
+    this.showProgressBar = true
+    this.DLService.removerEntrada(entrada.cod_entrada)
+      .then((res:any) => {
+        if (res.status === 0) {
+          this.meu_dl[dl_id].entradas.splice(entrada_id, 1)
+        } else {
+          console.log(res)
+          console.log("Tratar erros ao remover entrada do daily-log")
+        }
+      })
+      .catch((err:any) => {
+        console.log(err)
+        console.log("Tratar erros ao remover entrada do daily-log")
+      })
+      .finally(() => this.showProgressBar = false)
+  }
+
+  private refreshEntradasLastMonth() {
+    this.showProgressBar = true
+    this.DLService.getEntradasLastMonth(this.today.dia, this.today.mes, this.today.ano)
+      .then((res:any) => {
+        console.log(res)
+        if (res.status === 0) {
+          res.data.map(el => { 
+            if (el.entradas == null) 
+              el.entradas = [] 
+          })
+          
+          this.meu_dl = res.data
+        } else {
+          console.log("Tratar erros ao recuperar daily-log")
+        }
+      })
+      .catch(err => console.log(err))
+      .finally(() => this.showProgressBar = false)
+  }
 }

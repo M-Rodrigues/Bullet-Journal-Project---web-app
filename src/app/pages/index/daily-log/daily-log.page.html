@@ -22,9 +22,33 @@
     </ion-fab>
 
     <ion-list>
-      <ion-item *ngFor='let entrada of do_dia.entradas; let entrada_id = index'>
-        <ion-label>{{entrada.descricao}}</ion-label>
-      </ion-item>
+      <ion-item-sliding *ngFor='let entrada of do_dia.entradas; let entrada_id = index'>
+        <!-- <ion-item-options side="start">
+          <ion-item-option (click)="favorite(item)">Favorite</ion-item-option>
+          <ion-item-option color="danger" (click)="share(item)">Share</ion-item-option>
+        </ion-item-options> -->
+        
+        <ion-item>
+          <ion-input 
+            type='text'
+            [(ngModel)]='entrada.descricao'
+            (ionBlur)='atualizarEntrada(entrada,entrada_id,meu_dl_id)'>
+          </ion-input>
+        </ion-item>
+    
+        <ion-item-options side="end">
+          <ion-item-option (click)="removerEntrada(entrada,entrada_id,meu_dl_id)" color='danger'>
+            <ion-icon name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <!-- <ion-item *ngFor='let entrada of do_dia.entradas; let entrada_id = index'>
+        <ion-input 
+          type='text'
+          [(ngModel)]='entrada.descricao'
+          (ionBlur)='atualizarEntrada(entrada,entrada_id,meu_dl_id)'></ion-input>
+      </ion-item> -->
     </ion-list>
   </ion-card>
 </ion-content>
