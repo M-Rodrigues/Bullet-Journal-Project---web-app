@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content>
+  <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
   <ion-card *ngFor = 'let do_dia of meu_dl; let meu_dl_id = index'>
     <ion-card-header>
       <ion-card-title>{{do_dia.dia}}/{{do_dia.mes}}/{{do_dia.ano}}</ion-card-title>
@@ -15,9 +16,15 @@
     </ion-card-header>
 
     <ion-fab vertical="top" horizontal="end" slot="fixed">
-      <ion-fab-button>
-        <ion-icon name="add-"></ion-icon>
+      <ion-fab-button color="light" translucent="true" (click)='criarNovaEntrada(do_dia, meu_dl_id)'>
+        <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
+
+    <ion-list>
+      <ion-item *ngFor='let entrada of do_dia.entradas; let entrada_id = index'>
+        <ion-label>{{entrada.descricao}}</ion-label>
+      </ion-item>
+    </ion-list>
   </ion-card>
 </ion-content>
