@@ -1,3 +1,4 @@
+import { BulletHandlerService } from './bullet-handler.service';
 import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
@@ -18,7 +19,8 @@ export class AuthenticationService {
   constructor(
     private storage: Storage, 
     private plt: Platform, 
-    private http: HttpClient
+    private http: HttpClient,
+    private bj: BulletHandlerService
   ) {   
     this.plt.ready().then(() => {
       this.checkToken();
@@ -71,7 +73,10 @@ export class AuthenticationService {
     return new Promise((resolve, reject) => {
       promise
         .then((res:any) => {
-          if (res.status < 0) this.logout()
+          if (res.status < 0) {
+            this.logout()
+            this.bj.showToastSuccess("Login expirado. Faça login novamente")
+          }
           resolve(res)
         })
         .catch((err) => reject(err))

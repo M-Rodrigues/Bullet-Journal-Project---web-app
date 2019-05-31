@@ -1,3 +1,4 @@
+import { BulletHandlerService } from './../../../services/bullet-handler.service';
 import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { DailyLogService } from 'src/app/services/daily-log.service';
@@ -16,7 +17,8 @@ export class DailyLogPage implements OnInit {
 
   constructor(
     private DLService: DailyLogService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private bj: BulletHandlerService
   ) { 
     let date = new Date()
     this.today = {
@@ -36,20 +38,11 @@ export class DailyLogPage implements OnInit {
     const alert = await this.alertCtrl.create({
       header: 'Nova Entrada',
       inputs: [
-        {
-          name: 'descricao',
-          type: 'text',
-          placeholder: 'Entrada Daily-Log'
-        }
+        { name: 'descricao', type: 'text', placeholder: 'Entrada Daily-Log' }
       ],
       buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
+        { text: 'Cancel', role: 'cancel', cssClass: 'secondary',
+          handler: () => console.log('Confirm Cancel')
         }, {
           text: 'Ok',
           handler: (data:any) => {
@@ -60,11 +53,7 @@ export class DailyLogPage implements OnInit {
             this.DLService.criarEntrada(data.descricao,dia_escolhido.dia, dia_escolhido.mes, dia_escolhido.ano)
               .then((res:any) => {
                 if (res.status === 0) {
-                  // Adicionar lista
-
-                  // if (!this.meu_dl[id].entradas)
-                  //   this.meu_dl[id].entradas = []
-                  
+                  // Adicionar lista                  
                   this.meu_dl[id].entradas.push(res.entrada)
                 } else {
                   console.log(res)
@@ -74,6 +63,7 @@ export class DailyLogPage implements OnInit {
               .catch((err:any) => {
                 console.log(err)
                 console.log("Tratar erro ao criar entrada no Daily log")
+                this.bj.showToastError(err)
               })
               .finally(() => this.showProgressBar = false)
           }
@@ -98,6 +88,8 @@ export class DailyLogPage implements OnInit {
       .catch((err:any) => {
         console.log(err)
         console.log("Tratar erros ao atualizar entrada do daily-log")
+
+        this.bj.showToastError(err)
       })
       .finally(() => this.showProgressBar = false)
   }
@@ -116,6 +108,8 @@ export class DailyLogPage implements OnInit {
       .catch((err:any) => {
         console.log(err)
         console.log("Tratar erros ao remover entrada do daily-log")
+
+        this.bj.showToastError(err)
       })
       .finally(() => this.showProgressBar = false)
   }
@@ -136,7 +130,11 @@ export class DailyLogPage implements OnInit {
           console.log("Tratar erros ao recuperar daily-log")
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+
+        this.bj.showToastError(err)
+      })
       .finally(() => this.showProgressBar = false)
   }
 }
