@@ -39,60 +39,75 @@
       <!-- Calendar Page -->
       <div *ngIf="selectedPage==0">
        <ion-list lines="none">
-         <ion-item *ngFor="let element of entradas_cp let cp_id= index">
-          <ng-container *ngIf="element.entradas==null; else entradasPreenchido">
-            <!-- Sem signifier e sem entradas -->
-            <ion-button 
-              size="small" 
-              color="transparent" 
-              shape="round"
-              (click)='changeSign(entrada)'
-              class="empty-icon">
-            </ion-button>
-          </ng-container>
-          <ng-template #entradasPreenchido>
-            <ng-container *ngIf="element.entradas[0].cod_prioridade==1; else signifierExiste">
-             <!-- Tem entrada mas sem signifier -->
+         <ion-item-sliding *ngFor="let element of entradas_cp let cp_id= index"  class="item_calendarPage">
+          <ion-item>
+            <ng-container *ngIf="element.entradas==null; else entradasPreenchido">
+              <!-- Sem signifier e sem entradas -->
               <ion-button 
                 size="small" 
                 color="transparent" 
                 shape="round"
-                (click)='changeSign(entrada)'
                 class="empty-icon">
               </ion-button>
             </ng-container>
-            <ng-template #signifierExiste>
-              <ng-container *ngIf="element.entradas[0].cod_prioridade==2; else signifierCriativo">
-                <!-- Tem signifier estrelinha -->
-                <ion-icon 
-                  [style.color]="goldenrod"
-                  size= "small" 
-                  class= "bullet-icon"
-                  [name]= "star">
-                </ion-icon>
+            <ng-template #entradasPreenchido>
+              <ng-container *ngIf="element.entradas[0].cod_prioridade==1; else signifierExiste">
+              <!-- Tem entrada mas sem signifier -->
+                <ion-button 
+                  size="small" 
+                  color="transparent" 
+                  shape="round"
+                  (click)='changeSignCP(cp_id)'
+                  class="empty-icon">
+                </ion-button>
               </ng-container>
-              <ng-template #signifierCriativo>
-                <!-- Tem signifier exclamação -->
-                <ion-icon 
-                  [style.color]="pink"
-                  size= "small" 
-                  class= "bullet-icon"
-                  [name]= "alert">
-                </ion-icon>
-              </ng-template> 
+              <ng-template #signifierExiste>
+                <ng-container *ngIf="element.entradas[0].cod_prioridade==2; else signifierCriativo">
+                  <!-- Tem signifier estrelinha -->
+                  <ion-icon 
+                    style= 'color: goldenrod'
+                    size= "small" 
+                    class= "bullet-icon"
+                    name= "star"
+                    (click)='changeSignCP(cp_id)'>
+                  </ion-icon>
+                </ng-container>
+                <ng-template #signifierCriativo>
+                  <!-- Tem signifier exclamação -->
+                  <ion-icon 
+                    style= 'color: rgb(212, 86, 86)'
+                    size= "small" 
+                    class= "bullet-icon"
+                    name= "alert"
+                    (click)='changeSignCP(cp_id)'>
+                  </ion-icon>
+                </ng-template> 
+              </ng-template>
             </ng-template>
-          </ng-template>
 
-            <div class="dia">
-              {{element.dia}}
-            </div> 
-            <div class="dia_semana">
-              {{element.dia_semana_nome[0]}}
-            </div>
-            <div>
-              {{getEntradaCP(cp_id)}}
-            </div>
-         </ion-item>
+              <div class="dia">
+                {{element.dia}}
+              </div> 
+              <div class="dia_semana">
+                {{element.dia_semana_nome[0]}}
+              </div>
+              <div *ngIf="element.entradas!=null">
+                <ion-input type="text" [(ngModel)]="element.entradas[0].descricao" size=35 (ionBlur)= "atualizaDescricaoCP(element.entradas[0])"></ion-input>
+              </div>
+            </ion-item>
+            <ion-item-options side="end">
+                  <ng-container *ngIf="element.entradas==null; else existeEntrada">
+                      <ion-item-option  color='success' (click)="criarEntradaCP(cp_id)">
+                          <ion-icon name="add-circle" ></ion-icon>
+                      </ion-item-option>
+                  </ng-container>
+                  <ng-template #existeEntrada>
+                      <ion-item-option  color='danger' (click)="deletarEntradaCP(cp_id)">
+                          <ion-icon name="trash"></ion-icon>
+                      </ion-item-option>
+                  </ng-template>
+            </ion-item-options>
+        </ion-item-sliding>
        </ion-list>
       </div>
 
