@@ -1,6 +1,6 @@
 import { BulletHandlerService } from './../../../services/bullet-handler.service';
 import { AlertController } from '@ionic/angular';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DailyLogService } from 'src/app/services/daily-log.service';
 
 @Component({
@@ -9,11 +9,15 @@ import { DailyLogService } from 'src/app/services/daily-log.service';
   styleUrls: ['./daily-log.page.scss'],
 })
 export class DailyLogPage implements OnInit {
+  @ViewChild('slide') slide:any
+  
   today:any;
   meu_dl:any[] = []
 
   showProgressBar:boolean = false;
-  old_entrada:any;
+  show_icon:boolean = true;
+  icon_tipo_name: any[] = ['assets/icon/task.svg','assets/icon/event.svg','assets/icon/note.svg']
+  icon_prioridade_name: any[] = ['','assets/icon/star.svg','assets/icon/warning.svg']
 
   constructor(
     private DLService: DailyLogService,
@@ -94,6 +98,31 @@ export class DailyLogPage implements OnInit {
       .finally(() => this.showProgressBar = false)
   }
 
+  atualizarTipoEntrada(entrada, entrada_id, dl_id) {
+    entrada.cod_tipo = (entrada.cod_tipo % 3) + 1
+    
+    this.atualizarEntrada(entrada, entrada_id, dl_id)
+  }
+  
+  atualizarPrioridadeEntrada(entrada, entrada_id, dl_id) {
+    entrada.cod_prioridade = (entrada.cod_prioridade % 3) + 1
+    
+    // Gambiarra do icone vazio
+    if (entrada.cod_prioridade === 1) {
+      entrada.show_icon = false
+      setTimeout(() => entrada.show_icon = !entrada.show_icon, 1)
+    }
+
+    this.atualizarEntrada(entrada, entrada_id, dl_id)
+  }
+
+  atualizaStatusEntrada(cod, entrada, entrada_id, dl_id, meu_slide) {   
+    this.meu_dl[dl_id].entradas[entrada_id].cod_status = cod
+    meu_slide.close()
+
+    this.atualizarEntrada(entrada, entrada_id, dl_id)
+  }
+
   removerEntrada(entrada, entrada_id, dl_id) {
     this.showProgressBar = true
     this.DLService.removerEntrada(entrada.cod_entrada)
@@ -136,5 +165,17 @@ export class DailyLogPage implements OnInit {
         this.bj.showToastError(err)
       })
       .finally(() => this.showProgressBar = false)
+  }
+
+  private get_prioridade_icon(entrada) {
+    return this.icon_prioridade_name[entrada.cod_prioridade-1]
+  }
+  
+  private get_tipo_icon(entrada) {
+    if (entrada.cod_status === 2) {
+      return 'assets/icon/complete.svg'
+    }
+    return this.icon_tipo_name[entrada.cod_tipo-1]
+
   }
 }

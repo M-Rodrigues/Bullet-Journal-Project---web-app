@@ -75,7 +75,11 @@ export class AuthenticationService {
         .then((res:any) => {
           if (res.status < 0) {
             this.logout()
-            this.bj.showToastSuccess("Login expirado. Faça login novamente")
+            if (res.status === -1)
+              this.bj.showToastSuccess("Login expirado. Faça login novamente")
+            else if (res.status === -2) {
+              this.bj.showToastSuccess("Requisição sem token...")
+            }
           }
           resolve(res)
         })
