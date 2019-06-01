@@ -40,6 +40,7 @@
         
         <ion-item>
           
+          <!-- Icone de prioridade -->
           <ion-icon
             *ngIf='entrada.show_icon === undefined || entrada.show_icon' 
             (click)='atualizarPrioridadeEntrada(entrada, entrada_id, meu_dl_id)'
@@ -48,6 +49,7 @@
             size='small'>
           </ion-icon>
           
+          <!-- Icone de Tipo de Entrada -->
           <ion-icon 
             (click)='atualizarTipoEntrada(entrada, entrada_id, meu_dl_id)'
             [src]='get_tipo_icon(entrada)'
@@ -57,6 +59,8 @@
           </ion-icon>
           
 
+          <!-- Campos de descricao -->
+          
           <!-- Entrada Normal -->
           <ion-input
             *ngIf='entrada.cod_status !== 5 && entrada.cod_status !== 2'
