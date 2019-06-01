@@ -9,3 +9,31 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+
+.bullet-icon{
+    margin-right: 10px
+}
+
+.nested{
+    margin-left: 15px;
+    margin-right: 10px
+}
+
+:root{
+    --ion-color-pink: #e81158;
+    --ion-color-pink-rgb: 232,17,88;
+    --ion-color-pink-contrast:#ffffff;
+    --ion-color-pink-contrast-rgb: 255,255,255;
+    --ion-color-pink-shade: #cc0f4d;
+    --ion-color-pink-tint: #ea2969;
+}
+
+.ion-color-pink {
+    --ion-color-base: var(--ion-color-pink) !important;
+    --ion-color-base-rgb: var(--ion-color-pink-rgb) !important;
+    --ion-color-contrast: var(--ion-color-pink-contrast) !important;
+    --ion-color-contrast-rgb: var(--ion-color-pink-contrast-rgb) !important;
+    --ion-color-shade: var(--ion-color-pink-shade) !important;
+    --ion-color-tint: var(--ion-color-pink-tint) !important;
+}

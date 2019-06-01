@@ -3,43 +3,112 @@
     <ion-buttons slot='start'>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Monthly Log</ion-title>
+    <ion-title>{{page_month_year.nome_mes}}</ion-title>
+    <ion-buttons slot="end">
+        <ion-icon name="calendar" (click)='openPicker()' size="large"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
-  <ion-grid>
-    <ion-row align-items-center>
-      <ion-col size='6'>
-        <ion-button
-          size='small'
-          expand='full'
-          shape='round'
-          color='tertiary'
-          [fill]="selectedPage == 0 ? 'solid' : 'clear'" 
-          (click)='goCalendarPage()'>Calendar Page</ion-button>
-        </ion-col>
+    <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
+    <ion-grid>
+      <ion-row align-items-center>
         <ion-col size='6'>
-          <ion-button 
-          size='small'
-          expand='full'
-          shape='round'
-          color='tertiary'
-          [fill]="selectedPage == 1 ? 'solid' : 'clear'" 
-          (click)='goTaskPage()'>Task Page</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+          <ion-button
+            size='small'
+            expand='full'
+            shape='round'
+            color='tertiary'
+            [fill]="selectedPage == 0 ? 'solid' : 'clear'" 
+            (click)='goCalendarPage()'>Calendar Page</ion-button>
+          </ion-col>
+          <ion-col size='6'>
+            <ion-button 
+            size='small'
+            expand='full'
+            shape='round'
+            color='tertiary'
+            [fill]="selectedPage == 1 ? 'solid' : 'clear'" 
+            (click)='goTaskPage()'>Task Page</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
 
-  
-  <ion-slides #slides [options]="slideOpts">
-    <ion-slide>
-      <app-calendar-page></app-calendar-page>
-    </ion-slide>
-    <ion-slide>
-      <app-task-page></app-task-page>
-    </ion-slide>
-  </ion-slides>
+    
+      <div *ngIf="selectedPage==0">
+        <app-calendar-page></app-calendar-page>
+      </div>
+      <div *ngIf="selectedPage==1">
+        <ion-list lines="none">
+          <ion-item-sliding *ngFor="let entrada of entradas_tp; let tp_id = index">
+            <ion-item>
+              <ng-container *ngIf="entrada.signifierId!=2; else elseContent">
+                <ion-icon 
+                  [style.color]='getIconColor(entrada.signifierId)'
+                  size="small" 
+                  class="bullet-icon"
+                  [name]='getIconName(entrada.signifierId)'
+                  (click)='changeSign(entrada)'>
+                </ion-icon>
+              </ng-container>
+              <ng-template #elseContent>
+                <ion-button 
+                size="small" 
+                color="transparent" 
+                shape="round"
+                (click)='changeSign(entrada)'
+                class="empty-icon">
+                </ion-button>
+              </ng-template>
+              <ion-img 
+              [src]='getBulletSrc(tp_id)'
+              class="bullet-img">
+              </ion-img>
+              <ng-container *ngIf="entrada.irrelevant; else TaskRelevant">
+                <s>{{ entrada.name }}</s>
+              </ng-container>
+              <ng-template #TaskRelevant>
+                <ng-container *ngIf="entrada.complete; else TaskIncomplete">
+                  {{entrada.name}}
+                </ng-container>
+                <ng-template #TaskIncomplete>
+                    <div>
+                      <ion-input type="text" [(ngModel)]="entrada.name" size=35 (ionBlur)= "atualizaDescricao(entrada)"></ion-input>
+                    </div>
+                </ng-template>
+              </ng-template>
+              <!-- <ion-icon size="small" class="nested" name="radio-button-on" ></ion-icon>
+              {{ entrada.nested}} -->
+            </ion-item>
+            <ion-item-options side="end">
+                <ion-item-option (click)="removerTarefa(tp_id)" color='danger'>
+                  <ion-icon name="trash"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+            <ion-item-options side="start">
+                <ion-item-option color='success' (click)="changeStatusTask(tp_id)">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                  <!-- Finalizada -->
+                </ion-item-option>
+                <ion-item-option color='medium' (click)="changeIrrelevantTask(tp_id)">
+                    <ion-icon name="archive"></ion-icon>
+                    <!-- Irrelevante -->
+                </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+
+        <!-- <ion-footer no-border> -->
+            <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="criarNovaEntradaTaskPage()">
+                <ion-fab-button>
+                  <ion-icon name="add"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+        <!-- </ion-footer> -->
+      </div>
 </ion-content>
+
+
+

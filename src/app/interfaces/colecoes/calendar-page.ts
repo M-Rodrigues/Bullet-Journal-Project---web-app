@@ -1,5 +1,5 @@
 import { ColeçãoInterface } from './colecao';
 
-export interface CalendarPage extends ColeçãoInterface {
+export interface CalendarPageInterface extends ColeçãoInterface {
     
 }
