@@ -34,14 +34,20 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    
 
 
       <!-- Calendar Page -->
       <div *ngIf="selectedPage==0">
+        
        <ion-list lines="none">
-         <ion-item-sliding *ngFor="let element of entradas_cp let cp_id= index"  class="item_calendarPage">
+         <ion-item-sliding *ngFor="let element of entradas_cp let cp_id= index">
           <ion-item>
-            <ng-container *ngIf="element.entradas==null; else entradasPreenchido">
+            <ion-grid item-content>
+            <ion-label>
+            <ion-row no-padding align-items-center style=" margin-top: -10px;">
+              <ion-col size="1">
+            <ng-container *ngIf="element.entradas.length==0; else entradasPreenchido">
               <!-- Sem signifier e sem entradas -->
               <ion-button 
                 size="small" 
@@ -65,7 +71,7 @@
                 <ng-container *ngIf="element.entradas[0].cod_prioridade==2; else signifierCriativo">
                   <!-- Tem signifier estrelinha -->
                   <ion-icon 
-                    style= 'color: goldenrod'
+                    style= 'color: goldenrod; margin-top:7px'
                     size= "small" 
                     class= "bullet-icon"
                     name= "star"
@@ -75,7 +81,7 @@
                 <ng-template #signifierCriativo>
                   <!-- Tem signifier exclamação -->
                   <ion-icon 
-                    style= 'color: rgb(212, 86, 86)'
+                    style= 'color: rgb(212, 86, 86); margin-top:7px'
                     size= "small" 
                     class= "bullet-icon"
                     name= "alert"
@@ -84,19 +90,34 @@
                 </ng-template> 
               </ng-template>
             </ng-template>
-
+          </ion-col>
+              <ion-col size="2">
               <div class="dia">
                 {{element.dia}}
               </div> 
+            </ion-col>
+            <ion-col size="1">
               <div class="dia_semana">
                 {{element.dia_semana_nome[0]}}
               </div>
-              <div *ngIf="element.entradas!=null">
-                <ion-input type="text" [(ngModel)]="element.entradas[0].descricao" size=35 (ionBlur)= "atualizaDescricaoCP(element.entradas[0])"></ion-input>
+            </ion-col>
+            <ion-col size="8">
+              <div *ngIf="element.entradas.length!=0" no-margin>
+                <ion-item>
+                <ion-input 
+                  type="text" 
+                  [(ngModel)]="element.entradas[0].descricao" 
+                  (ionBlur)= "atualizaDescricaoCP(element.entradas[0])">
+                </ion-input>
+              </ion-item>
               </div>
-            </ion-item>
+            </ion-col>
+            </ion-row>
+            </ion-label>
+          </ion-grid>
+          </ion-item>
             <ion-item-options side="end">
-                  <ng-container *ngIf="element.entradas==null; else existeEntrada">
+                  <ng-container *ngIf="element.entradas.length==0; else existeEntrada">
                       <ion-item-option  color='success' (click)="criarEntradaCP(cp_id)">
                           <ion-icon name="add-circle" ></ion-icon>
                       </ion-item-option>
@@ -107,8 +128,10 @@
                       </ion-item-option>
                   </ng-template>
             </ion-item-options>
+          
         </ion-item-sliding>
        </ion-list>
+     
       </div>
 
 

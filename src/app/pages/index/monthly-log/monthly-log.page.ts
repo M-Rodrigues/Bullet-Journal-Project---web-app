@@ -102,7 +102,10 @@ export class MonthlyLogPage implements OnInit {
               this.showProgressBar=true
               this.calendarPageService.getEntradasMonthYear(input.months.value, input.years.value)
                 .then((res: any)=>{
-                  this.entradas_cp=res.data
+                  for (let i=0; i<res.data.length; i++){
+                    if(res.data[i].entradas==null) res.data[i].entradas=[]
+                  }
+                  this.entradas_cp = res.data
                 })
                 .catch((err)=>{
                   console.log(err)
@@ -220,6 +223,9 @@ export class MonthlyLogPage implements OnInit {
     this.showProgressBar=true
     this.calendarPageService.getEntradasMonthYear(date.getMonth()+1, date.getFullYear())
       .then((res: any)=>{
+        for (let i=0; i<res.data.length; i++){
+          if(res.data[i].entradas==null) res.data[i].entradas=[]
+        }
         this.entradas_cp = res.data
       })
       .catch( (err) => {
@@ -398,7 +404,7 @@ export class MonthlyLogPage implements OnInit {
   }
 
   getEntradaCP(id){
-    if(this.entradas_cp[id].entradas!= null){
+    if(this.entradas_cp[id].entradas.length!=0){
       return this.entradas_cp[id].entradas[0].descricao;
     }
   }
@@ -469,7 +475,7 @@ export class MonthlyLogPage implements OnInit {
     this.showProgressBar=true
     this.calendarPageService.removerEntrada(this.entradas_cp[id].entradas[0].cod_entrada)
       .then((res)=>{
-        this.entradas_cp[id].entradas=null
+        this.entradas_cp[id].entradas=[]
       })
       .catch((err)=>{
         console.log(err)
