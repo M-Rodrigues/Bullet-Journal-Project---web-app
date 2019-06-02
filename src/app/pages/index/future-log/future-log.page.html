@@ -12,7 +12,7 @@
 
 <ion-content>
   <!-- <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar> -->
-  <ion-card *ngFor = 'let mes_atual of meu_fl; let meu_fl_id = index'>
+  <ion-card *ngFor='let mes_atual of meu_fl; let meu_fl_id = index'>
     <ion-card-header>
       <ion-card-title>{{mes_atual.mes_nome}}</ion-card-title>
       <ion-card-subtitle>{{mes_atual.mes_nome}}</ion-card-subtitle>
@@ -39,12 +39,11 @@
         </ion-item-options>
 
         <ion-item>
-          <ion-input
-            type='text'
-            [(ngModel)]='entrada.descricao'>
+          <ion-input type='text' [(ngModel)]='entrada.descricao'
+            (ionBlur)='atualizarEntrada(entrada,entrada_id,meu_fl_id)'>
           </ion-input>
         </ion-item>
-    
+
         <ion-item-options side="end">
           <ion-item-option (click)="removerEntrada(entrada,entrada_id,meu_dl_id)" color='danger'>
             <ion-icon name="trash"></ion-icon>

@@ -23,6 +23,9 @@ export class FutureLogService {
   /*  PUT /future-log
     ::  atualiza dados de uma entrada do future log
     */
+  atualizaEntrada(entrada) {
+    return this.auth.checkAuth(this.http.put(`${environment.SERVER_ADDR}/future-log`,entrada).toPromise())
+  }
 
 
   /*  POST /future-log

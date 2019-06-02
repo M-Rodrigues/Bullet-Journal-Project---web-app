@@ -12,6 +12,9 @@ export class FutureLogPage implements OnInit {
   showProgressBar:boolean = false
 
   meu_fl: any[] = []
+  icon_tipo_name: any[] = ['assets/icon/task.svg','assets/icon/event.svg']
+  icon_prioridade_name: any[] = ['','assets/icon/star.svg','assets/icon/warning.svg']
+
 
   constructor(
     private alertCtrl: AlertController,
@@ -64,6 +67,26 @@ export class FutureLogPage implements OnInit {
     await alert.present();
   }
 
+  atualizarEntrada(entrada, entrada_id, dl_id) {
+    // Atualizar entrada no Servidor
+    this.showProgressBar = true
+    this.FLService.atualizaEntrada(entrada)
+      .then((res:any) => {
+        if (res.status === 0) {
+          this.meu_fl[dl_id].entradas[entrada_id] = entrada
+        } else {
+          console.log("Tratar erros ao atualizar entrada do future-log")
+        }
+      })
+      .catch((err:any) => {
+        console.log(err)
+        console.log("Tratar erros ao atualizar entrada do future-log")
+
+        this.bj.showToastError(err)
+      })
+      .finally(() => this.showProgressBar = false)
+  }
+
   private refreshEntradasNextYear() {
     let date = new Date()
     this.showProgressBar = true
@@ -90,5 +113,17 @@ export class FutureLogPage implements OnInit {
         this.bj.showToastError(err)
       })
       .finally(() => this.showProgressBar = false)
+  }
+
+  private get_prioridade_icon(entrada) {
+    return this.icon_prioridade_name[entrada.cod_prioridade-1]
+  }
+  
+  private get_tipo_icon(entrada) {
+    if (entrada.cod_status === 2) {
+      return 'assets/icon/complete.svg'
+    }
+    return this.icon_tipo_name[entrada.cod_tipo-1]
+
   }
 }
