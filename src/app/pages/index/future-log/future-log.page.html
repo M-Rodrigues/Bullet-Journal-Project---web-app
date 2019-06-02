@@ -6,8 +6,8 @@
     <ion-buttons slot='end'>
       <ion-button 
         fill="clear" 
-        slot="end" e
-        xpand='block' 
+        slot="end"
+        expand='block' 
         icon-only
         (click)='adicionarEntrada()'>
         <ion-icon name='add'></ion-icon>
@@ -20,23 +20,27 @@
 <ion-content>
   <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
   
-  <ion-card *ngFor='let mes_atual of entradas_ftlog; let ftlog_id = index'>
+  <ion-card *ngFor='let fl_mes of meu_fl; let meu_fl_id = index'>
     <ion-card-header>
-      <ion-card-title>
-          {{mes_atual.nome_mes}}, {{mes_atual.ano}}
-      </ion-card-title>
+      <ion-card-title>{{fl_mes.mes_nome}}</ion-card-title>
+      <ion-card-subtitle>{{fl_mes.ano}}</ion-card-subtitle>
     </ion-card-header>
+
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
+      <ion-fab-button color="light" translucent="true" (click)='criarNovaEntrada(fl_mes, meu_fl_id)'>
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
     
-    <ion-item-sliding *ngFor='let entrada of mes_atual.entradas; let entrada_id = index'>  
+    <ion-item-sliding *ngFor='let entrada of fl_mes.entradas; let entrada_id = index'>  
       <ion-item>
         <ion-icon class='bullet-icon' size='small' name="star"></ion-icon>
         <ion-icon class='bullet-icon' size='small' name="albums"></ion-icon>
-        
-        {{entrada.full_date.dia}} | {{entrada.descricao}}
+        {{entrada.descricao}}
       </ion-item>
   
       <ion-item-options side="end">
-        <ion-item-option (click)="removerEntrada(entrada, ftlog_id, entrada_id)" color='danger'>
+        <ion-item-option (click)="removerEntrada(entrada, meu_fl_id, entrada_id)" color='danger'>
           <ion-icon name="trash"></ion-icon>
         </ion-item-option>
       </ion-item-options>

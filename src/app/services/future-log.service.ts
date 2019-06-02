@@ -8,40 +8,20 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class FutureLogService {
-  entradas: any[] = [
-    {
-      data: {
-        mes: 5,
-        ano: 2019
-      },
-      entradas: [
-        {
-          data: {
-            dia: 21,
-            mes: 5,
-            ano: 2019
-          },
-          descricao: 'Trabalho USB'
-        }
-      ]
-    }
-  ]
-
+  
   constructor(
-    private calendar: CalendarService,
     private http: HttpClient
   ) { }
 
-  criarEntrada(data) {
+  criarEntrada(descricao, dia, mes, ano) {
     console.log("::on Future Log service")
-    console.log(data)
 
     let body = {
-      descricao: data.descricao,
-      dia: data.data.dia,
-      mes: data.data.mes,
-      ano: data.data.ano,
-      cod_tipo: data.tipo
+      descricao: descricao,
+      dia: dia,
+      mes: mes,
+      ano: ano,
+      cod_tipo: 1
     }
 
     return this.http.post(`${environment.SERVER_ADDR}/future-log`, body).toPromise()

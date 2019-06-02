@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 import { CalendarService } from './../../../services/calendar.service';
 import { FutureLogService } from './../../../services/future-log.service';
@@ -15,70 +15,82 @@ import { CriarEntradaFLogPage } from './criar-entrada-f-log/criar-entrada-f-log.
 })
 export class FutureLogPage implements OnInit {
   showProgressBar: boolean = false
-  entradas_ftlog: any[] = []
+  meu_fl: any[]
 
   constructor(
-    private ftlogService: FutureLogService,
-    private modalCtrl: ModalController,
+    private FLService: FutureLogService,
+    private alertCtrl: AlertController,
     private calendar: CalendarService,
-    private bjHandler: BulletHandlerService
+    private bj: BulletHandlerService
   ) { }
 
   ngOnInit() {
     console.log("::ngOnInit")
-    this.entradas_ftlog = this.ftlogService.getEntradasStatic();
-  
-    this.updateEntradasMonth()
-
-    this.ftlogService.getEntradasFullYear()
-      .then(res => {
+    
+    this.showProgressBar = true;
+    this.FLService.getEntradasFullYear()
+      .then((res:any) => {
         console.log('Entradas Full Year')
+        if (res.status === 0) {
+          for (let i = 0; i < res.data.length; i++) {
+            res.data[i] = res.data[i].doc
+
+            if (res.data[i].entradas === null)
+              res.data[i].entradas = []
+          }
+          this.meu_fl = res.data
+        } else {
+          console.log("Tratar erros na recuperação do future log")
+        }
         console.log(res)
       })
       .catch(err => {
         console.log('Entradas Full Year::Erro')
         console.log(err)
       })
+      .finally(() => this.showProgressBar = false)
   }
 
-  async adicionarEntrada() {
-    console.log("::adicionarEntrada")
-    
-    const modal = await this.modalCtrl.create({
-      component: CriarEntradaFLogPage
-    })    
+  async criarNovaEntrada(mes_escolhido, id) {
+    console.log(mes_escolhido)
 
-    await modal.present();
-    
-    this.showProgressBar = true
-    modal.onWillDismiss()
-      .then((res:any) => {
-        console.log("::onWillDismiss")
-
-        res = res.data
-        console.log(res)
-        
-        // Adicionar na lista de entradas
-        let dia = parseInt(res.entrada.data.substring(0,2))
-        let mes = parseInt(res.entrada.data.substring(2,4))
-        let ano = parseInt(res.entrada.data.substring(4,8))       
-        res.entrada.data = { dia:dia, mes:mes, ano:ano };
-        
-        this.entradas_ftlog.forEach(el => {
-          console.log(el)
-          if (el.data.mes == mes && el.data.ano == ano) {
-            console.log('Encontrei!')
-            el.entradas.push(res.entrada)
+    const alert = await this.alertCtrl.create({
+      header: 'Nova Entrada',
+      inputs: [
+        { name: 'descricao', type: 'text', placeholder: 'Entrada Future-Log' }
+      ],
+      buttons: [
+        { text: 'Cancel', role: 'cancel', cssClass: 'secondary',
+          handler: () => console.log('Confirm Cancel')
+        }, {
+          text: 'Ok',
+          handler: (data:any) => {
+            console.log('Confirm Ok');
+            console.log(data)
+            
+            this.showProgressBar = true;
+            this.FLService.criarEntrada(data.descricao,(new Date()).getDate(), mes_escolhido.mes, mes_escolhido.ano)
+              .then((res:any) => {
+                if (res.status === 0) {
+                  // Adicionar lista                  
+                  this.meu_fl[id].entradas.push(res.entrada)
+                } else {
+                  console.log(res)
+                  console.log("Tratar erro ao criar entrada no Daily log")
+                }
+              })
+              .catch((err:any) => {
+                console.log(err)
+                console.log("Tratar erro ao criar entrada no Daily log")
+                this.bj.showToastError(err)
+              })
+              .finally(() => this.showProgressBar = false)
           }
-        })
+        }
+      ]
+    });
 
-        // console.log(entrada)
-      })
-      .catch((err) => {
-      })
-      .finally(() => {
-        this.showProgressBar = false
-      })  
+    await alert.present();
   }
 
   removerEntrada(entrada, flogId: number, entradaId: number) {
@@ -86,25 +98,10 @@ export class FutureLogPage implements OnInit {
     console.log(entradaId)
 
     // TODO remover entrada no banco
-    this.entradas_ftlog[flogId].entradas.splice(entradaId, 1)
+    this.meu_fl[flogId].entradas.splice(entradaId, 1)
   }
 
   getNomeMes(mes) {
     return this.calendar.getMonth(mes-1)
-  }
-
-  private updateEntradasMonth() {
-    this.ftlogService.getEntradasMonth()
-      .then((res:any) => {
-        console.log('Entradas Month')
-        console.log(res)
-        if (res.status == 0) {
-          this.entradas_ftlog = res.data
-        }
-      })
-      .catch(err => {
-        console.log('Entradas Month::Erro')
-        console.log(err)
-      })
   }
 }
