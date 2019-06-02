@@ -50,7 +50,7 @@
           
           <!-- Icone de Tipo de Entrada -->
           <ion-icon 
-            (click)='atualizarTipoEntrada(entrada, entrada_id, meu_dl_id)'
+            (click)='atualizarTipoEntrada(entrada, entrada_id, meu_fl_id)'
             [src]='get_tipo_icon(entrada)'
             slot='start' 
             size='small'
@@ -64,7 +64,7 @@
         </ion-item>
 
         <ion-item-options side="end">
-          <ion-item-option (click)="removerEntrada(entrada,entrada_id,meu_dl_id)" color='danger'>
+          <ion-item-option (click)="removerEntrada(entrada,entrada_id,meu_fl_id)" color='danger'>
             <ion-icon name="trash"></ion-icon>
           </ion-item-option>
         </ion-item-options>
