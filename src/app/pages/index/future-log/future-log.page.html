@@ -18,12 +18,41 @@
       <ion-card-subtitle>{{mes_atual.mes_nome}}</ion-card-subtitle>
     </ion-card-header>
 
-    <!-- <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
       <ion-fab-button color="light" translucent="true" (click)='criarNovaEntrada(mes_atual, meu_fl_id)'>
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
-    </ion-fab> -->
+    </ion-fab>
 
+    <ion-list>
+      <ion-item-sliding *ngFor='let entrada of mes_atual.entradas; let entrada_id = index' #slide>
+        <ion-item-options side="start">
+          <ion-item-option color='secondary' (click)='atualizaStatusEntrada(1,entrada,entrada_id,meu_dl_id,slide)'>
+            <ion-icon name="book" icon-only></ion-icon>
+          </ion-item-option>
+          <ion-item-option color='success' (click)='atualizaStatusEntrada(2,entrada,entrada_id,meu_dl_id,slide)'>
+            <ion-icon name="checkmark"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color='warning' (click)='atualizaStatusEntrada(5,entrada,entrada_id,meu_dl_id,slide)'>
+            <ion-icon src='assets/icon/irrelevant.svg' icon-only></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item>
+          <ion-input
+            type='text'
+            [(ngModel)]='entrada.descricao'>
+          </ion-input>
+        </ion-item>
+    
+        <ion-item-options side="end">
+          <ion-item-option (click)="removerEntrada(entrada,entrada_id,meu_dl_id)" color='danger'>
+            <ion-icon name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </ion-list>
 
   </ion-card>
 </ion-content>

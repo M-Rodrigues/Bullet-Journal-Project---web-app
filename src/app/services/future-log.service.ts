@@ -28,7 +28,16 @@ export class FutureLogService {
   /*  POST /future-log
     ::  criar uma nova entrada no future log
     */
-
+  criarEntrada(descricao, dia, mes, ano) {
+    let body = {
+      descricao: descricao,
+      dia: dia,
+      mes: mes,
+      ano: ano,
+      cod_tipo: 1
+    }
+    return this.auth.checkAuth(this.http.post(`${environment.SERVER_ADDR}/future-log/`, body).toPromise())
+  }
 
   /*  DELETE /future-log/:id
     ::  remove o uma entrada do future log

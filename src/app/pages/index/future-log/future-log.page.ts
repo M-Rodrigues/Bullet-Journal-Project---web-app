@@ -1,3 +1,4 @@
+import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { FutureLogService } from 'src/app/services/future-log.service';
 import { BulletHandlerService } from 'src/app/services/bullet-handler.service';
@@ -13,6 +14,7 @@ export class FutureLogPage implements OnInit {
   meu_fl: any[] = []
 
   constructor(
+    private alertCtrl: AlertController,
     private FLService: FutureLogService,
     private bj: BulletHandlerService
   ) { }
@@ -21,7 +23,46 @@ export class FutureLogPage implements OnInit {
     this.refreshEntradasNextYear()
   }
 
+  async criarNovaEntrada(mes_atual, id) {
+    console.log(mes_atual)
 
+    const alert = await this.alertCtrl.create({
+      header: 'Nova Entrada',
+      inputs: [
+        { name: 'descricao', type: 'text', placeholder: 'Entrada Future-Log' }
+      ],
+      buttons: [
+        { text: 'Cancel', role: 'cancel', cssClass: 'secondary',
+          handler: () => console.log('Confirm Cancel')
+        }, {
+          text: 'Ok',
+          handler: (data:any) => {
+            console.log('Confirm Ok');
+            
+            this.showProgressBar = true;
+            this.FLService.criarEntrada(data.descricao,(new Date()).getDate(), mes_atual.mes, mes_atual.ano)
+              .then((res:any) => {
+                if (res.status === 0) {
+                  // Adicionar lista                  
+                  this.meu_fl[id].entradas.push(res.entrada)
+                } else {
+                  console.log(res)
+                  console.log("Tratar erro ao criar entrada no Daily log")
+                }
+              })
+              .catch((err:any) => {
+                console.log(err)
+                console.log("Tratar erro ao criar entrada no Daily log")
+                this.bj.showToastError(err)
+              })
+              .finally(() => this.showProgressBar = false)
+          }
+        }
+      ]
+    })
+
+    await alert.present();
+  }
 
   private refreshEntradasNextYear() {
     let date = new Date()
