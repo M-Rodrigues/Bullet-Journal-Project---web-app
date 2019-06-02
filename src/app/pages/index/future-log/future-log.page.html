@@ -15,7 +15,7 @@
   <ion-card *ngFor='let mes_atual of meu_fl; let meu_fl_id = index'>
     <ion-card-header>
       <ion-card-title>{{mes_atual.mes_nome}}</ion-card-title>
-      <ion-card-subtitle>{{mes_atual.mes_nome}}</ion-card-subtitle>
+      <ion-card-subtitle>{{mes_atual.ano}}</ion-card-subtitle>
     </ion-card-header>
 
     <ion-fab vertical="top" horizontal="end" slot="fixed">
@@ -39,6 +39,25 @@
         </ion-item-options>
 
         <ion-item>
+          <!-- Icone de prioridade -->
+          <ion-icon
+            *ngIf='entrada.show_icon === undefined || entrada.show_icon' 
+            (click)='atualizarPrioridadeEntrada(entrada, entrada_id, meu_fl_id)'
+            [src]='get_prioridade_icon(entrada)'
+            slot='start'
+            size='small'>
+          </ion-icon>
+          
+          <!-- Icone de Tipo de Entrada -->
+          <ion-icon 
+            (click)='atualizarTipoEntrada(entrada, entrada_id, meu_dl_id)'
+            [src]='get_tipo_icon(entrada)'
+            slot='start' 
+            size='small'
+            color='medium'>
+          </ion-icon>
+
+          <!-- <ion-label position='stacked'>dia</ion-label> -->
           <ion-input type='text' [(ngModel)]='entrada.descricao'
             (ionBlur)='atualizarEntrada(entrada,entrada_id,meu_fl_id)'>
           </ion-input>

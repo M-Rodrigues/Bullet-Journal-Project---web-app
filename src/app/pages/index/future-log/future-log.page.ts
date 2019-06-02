@@ -87,6 +87,18 @@ export class FutureLogPage implements OnInit {
       .finally(() => this.showProgressBar = false)
   }
 
+  atualizarPrioridadeEntrada(entrada, entrada_id, fl_id) {
+    entrada.cod_prioridade = (entrada.cod_prioridade % 3) + 1
+    
+    // Gambiarra do icone vazio
+    if (entrada.cod_prioridade === 1) {
+      entrada.show_icon = false
+      setTimeout(() => entrada.show_icon = !entrada.show_icon, 1)
+    }
+
+    this.atualizarEntrada(entrada, entrada_id, fl_id)
+  }
+
   private refreshEntradasNextYear() {
     let date = new Date()
     this.showProgressBar = true
