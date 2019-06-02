@@ -68,4 +68,22 @@ export class AuthenticationService {
     return this.authenticationState.value;
   }
 
+  checkAuth(promise:Promise<any>) {
+    return new Promise((resolve, reject) => {
+      promise
+        .then((res:any) => {
+          if (res.status < 0) {
+            this.logout()
+            if (res.status === -1)
+              this.bj.showToastSuccess("Login expirado. Faça login novamente")
+            else if (res.status === -2) {
+              this.bj.showToastSuccess("Requisição sem token...")
+            }
+          }
+          resolve(res)
+        })
+        .catch((err) => reject(err))
+    })
+  }
+
 }

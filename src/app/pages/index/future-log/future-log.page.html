@@ -3,23 +3,15 @@
     <ion-buttons slot='start'>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-buttons slot='end'>
-      <ion-button 
-        fill="clear" 
-        slot="end"
-        expand='block' 
-        icon-only
-        (click)='adicionarEntrada()'>
-        <ion-icon name='add'></ion-icon>
-      </ion-button>
+    <ion-buttons slot='end' *ngIf="showProgressBar">
+      <ion-spinner name="crescent"></ion-spinner>
     </ion-buttons>
     <ion-title>Future Log</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar>
-  
+  <!-- <ion-progress-bar type="indeterminate" *ngIf="showProgressBar"></ion-progress-bar> -->
   <ion-card *ngFor='let fl_mes of meu_fl; let meu_fl_id = index'>
     <ion-card-header>
       <ion-card-title>{{fl_mes.mes_nome}}</ion-card-title>
@@ -32,12 +24,57 @@
       </ion-fab-button>
     </ion-fab>
     
-    <ion-item-sliding *ngFor='let entrada of fl_mes.entradas; let entrada_id = index'>  
+    <ion-item-sliding *ngFor='let entrada of fl_mes.entradas; let entrada_id = index' #slide>  
+      <ion-item-options side="start">
+        <ion-item-option color='secondary' (click)='atualizaStatusEntrada(1,entrada,entrada_id,meu_fl_id,slide)'>
+          <ion-icon name="book" icon-only></ion-icon>
+        </ion-item-option>
+        <ion-item-option color='warning' (click)='atualizaStatusEntrada(5,entrada,entrada_id,meu_fl_id,slide)'>
+          <ion-icon src='assets/icon/irrelevant.svg' icon-only></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      
       <ion-item>
-        <ion-icon class='bullet-icon' size='small' name="star"></ion-icon>
-        <ion-icon class='bullet-icon' size='small' name="albums"></ion-icon>
-        {{entrada.descricao}}
-      </ion-item>
+          
+          <!-- Icone de prioridade -->
+          <ion-icon
+            *ngIf='entrada.show_icon === undefined || entrada.show_icon' 
+            (click)='atualizarPrioridadeEntrada(entrada, entrada_id, meu_fl_id)'
+            [src]='get_prioridade_icon(entrada)'
+            slot='start'
+            size='small'>
+          </ion-icon>
+          
+          <!-- Icone de Tipo de Entrada -->
+          <ion-icon 
+            (click)='atualizarTipoEntrada(entrada, entrada_id, meu_fl_id)'
+            [src]='get_tipo_icon(entrada)'
+            slot='start' 
+            size='small'
+            color='medium'>
+          </ion-icon>
+          
+
+          <!-- Campos de descricao -->
+          
+          <!-- Entrada Normal -->
+          <ion-input
+            *ngIf='entrada.cod_status !== 5 && entrada.cod_status !== 2'
+            type='text'
+            [(ngModel)]='entrada.descricao'
+            (ionBlur)='atualizarEntrada(entrada,entrada_id,meu_fl_id)'>
+          </ion-input>
+
+          <!-- Entrada com status Irrelevant -->
+          <ion-input
+            *ngIf='entrada.cod_status === 5'
+            style='text-decoration: line-through;'
+            [disabled]=true
+            type='text'
+            [(ngModel)]='entrada.descricao'
+            (ionBlur)='atualizarEntrada(entrada,entrada_id,meu_fl_id)'>
+          </ion-input>
+        </ion-item>
   
       <ion-item-options side="end">
         <ion-item-option (click)="removerEntrada(entrada, meu_fl_id, entrada_id)" color='danger'>
