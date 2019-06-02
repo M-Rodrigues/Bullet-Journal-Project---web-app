@@ -45,5 +45,7 @@ export class FutureLogService {
   /*  DELETE /future-log/:id
     ::  remove o uma entrada do future log
     */
-
+   removerEntrada(cod_entrada) {
+    return this.auth.checkAuth(this.http.delete(`${environment.SERVER_ADDR}/future-log/${cod_entrada}`).toPromise())
+  }
 }

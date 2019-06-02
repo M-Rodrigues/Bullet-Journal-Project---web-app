@@ -105,6 +105,28 @@ export class FutureLogPage implements OnInit {
     this.atualizarEntrada(entrada, entrada_id, fl_id)
   }
 
+
+  removerEntrada(entrada,entrada_id,fl_id) {
+    this.showProgressBar = true
+    this.FLService.removerEntrada(entrada.cod_entrada)
+      .then((res:any) => {
+        if (res.status === 0) {
+          this.meu_fl[fl_id].entradas.splice(entrada_id, 1)
+        } else {
+          console.log(res)
+          console.log("Tratar erros ao remover entrada do future-log")
+        }
+      })
+      .catch((err:any) => {
+        console.log(err)
+        console.log("Tratar erros ao remover entrada do future-log")
+
+        this.bj.showToastError(err)
+      })
+      .finally(() => this.showProgressBar = false)
+  }
+
+
   private refreshEntradasNextYear() {
     let date = new Date()
     this.showProgressBar = true
