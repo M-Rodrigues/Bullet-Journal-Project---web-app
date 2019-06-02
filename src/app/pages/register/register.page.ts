@@ -16,7 +16,7 @@ export class RegisterPage implements OnInit {
 
   constructor(
     private usuariosService: UsuariosService,
-    private bulletHandler: BulletHandlerService,
+    private bj: BulletHandlerService,
     private router: Router,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController
@@ -34,11 +34,8 @@ export class RegisterPage implements OnInit {
 
     this.usuariosService.criarUsuario(user)
       .then((res: any) => {
-        if (res.message === "sucesso") {
-          this.bulletHandler.handleResponse({
-            code: MyRes.SUCESSO_CRIAR_USUARIO,
-            res: res
-          })
+        if (res.status === 0) {
+          this.bj.showToastSuccess("Usuário criado com sucesso.")
 
           loading.dismiss()
           this.router.navigate(['login'])

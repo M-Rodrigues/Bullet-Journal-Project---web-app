@@ -28,7 +28,7 @@ export class UsuariosService implements UsuarioInterface {
       password: user.password
     }
 
-    // console.log(body);
+    console.log(body);
 
     return this.http.post(`${environment.SERVER_ADDR}/usuarios`, body).toPromise()
   }
