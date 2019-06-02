@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TaskPageInterface } from '../interfaces/colecoes/task-page';
 import { CalendarService } from './calendar.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
