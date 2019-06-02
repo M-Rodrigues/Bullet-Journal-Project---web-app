@@ -26,6 +26,9 @@ export class FutureLogPage implements OnInit {
     this.refreshEntradasNextYear()
   }
 
+
+
+  
   async criarNovaEntrada(mes_atual, id) {
     console.log(mes_atual)
 
@@ -67,6 +70,9 @@ export class FutureLogPage implements OnInit {
     await alert.present();
   }
 
+
+
+
   atualizarEntrada(entrada, entrada_id, fl_id) {
     // Atualizar entrada no Servidor
     this.showProgressBar = true
@@ -104,6 +110,15 @@ export class FutureLogPage implements OnInit {
     
     this.atualizarEntrada(entrada, entrada_id, fl_id)
   }
+
+  atualizaStatusEntrada(cod, entrada, entrada_id, fl_id, meu_slide) {   
+    this.meu_fl[fl_id].entradas[entrada_id].cod_status = cod
+    meu_slide.close()
+
+    this.atualizarEntrada(entrada, entrada_id, fl_id)
+  }
+
+
 
 
   removerEntrada(entrada,entrada_id,fl_id) {
