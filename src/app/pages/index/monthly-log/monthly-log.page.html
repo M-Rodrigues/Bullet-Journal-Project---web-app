@@ -42,11 +42,11 @@
         
        <ion-list lines="none">
          <ion-item-sliding *ngFor="let element of entradas_cp let cp_id= index">
-          <ion-item>
-            <ion-grid item-content>
+          <ion-item >
+            <ion-grid item-content style="--ion-grid-padding: 0px">
             <ion-label>
             <ion-row no-padding align-items-center style=" margin-top: -10px;">
-              <ion-col size="1">
+              <ion-col size="1" style="--ion-grid-column-padding: 0px ">
             <ng-container *ngIf="element.entradas.length==0; else entradasPreenchido">
               <!-- Sem signifier e sem entradas -->
               <ion-button 
@@ -91,17 +91,17 @@
               </ng-template>
             </ng-template>
           </ion-col>
-              <ion-col size="2">
+              <ion-col size="2" style="--ion-grid-column-padding: 0px ">
               <div class="dia">
                 {{element.dia}}
               </div> 
             </ion-col>
-            <ion-col size="1">
+            <ion-col size="1" style="--ion-grid-column-padding: 0px ">
               <div class="dia_semana">
                 {{element.dia_semana_nome[0]}}
               </div>
             </ion-col>
-            <ion-col size="8">
+            <ion-col size="8" style="--ion-grid-column-padding: 0px ">
               <div *ngIf="element.entradas.length!=0" no-margin>
                 <ion-item>
                 <ion-input 
