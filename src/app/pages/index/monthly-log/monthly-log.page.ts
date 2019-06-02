@@ -16,7 +16,7 @@ export class MonthlyLogPage implements OnInit {
   entradas_cp: any[] = []
   entradas_tp: any[] = []
   signifier_tp: any[] = ["star", "alert"]
-  signifier_color_tp: any[] = ["goldenrod", "pink"]
+  signifier_color_tp: any[] = ["goldenrod", "rgb(212, 86, 86)"]
   bulletIcon: any[] = ["https://cdn3.iconfinder.com/data/icons/objects/512/Dot-512.png", "https://cdn0.iconfinder.com/data/icons/modagraphica-interface/30/cancel-512.png"]
   selectedPage: number = 0
   showProgressBar: boolean = false;
@@ -68,6 +68,7 @@ export class MonthlyLogPage implements OnInit {
           text: 'Done',
           handler: (input) => {
             console.log(input);
+           this.showProgressBar=true
             this.taskService.getEntradasMonthYear(input.months.value, input.years.value)
               .then((res: any) => {
                 if(res.data.entradas===null) res.data.entradas=[]
@@ -94,6 +95,25 @@ export class MonthlyLogPage implements OnInit {
               .catch( (err) => {
                 console.log(err);
               })
+              .finally(()=>{
+                this.showProgressBar=false
+              })
+
+              this.showProgressBar=true
+              this.calendarPageService.getEntradasMonthYear(input.months.value, input.years.value)
+                .then((res: any)=>{
+                  for (let i=0; i<res.data.length; i++){
+                    if(res.data[i].entradas==null) res.data[i].entradas=[]
+                  }
+                  this.entradas_cp = res.data
+                })
+                .catch((err)=>{
+                  console.log(err)
+                })
+                .finally(()=>{
+                  this.showProgressBar=false
+                })
+
           }
 
         }],
@@ -168,6 +188,7 @@ export class MonthlyLogPage implements OnInit {
       ano: date.getFullYear()
     }
     this.entradas_tp = []
+    this.entradas_cp = []
     this.showProgressBar=true
 
     this.taskService.getEntradasMonthYear(date.getMonth()+1,date.getFullYear())
@@ -198,6 +219,21 @@ export class MonthlyLogPage implements OnInit {
     .finally(()=>{
       this.showProgressBar=false
     })
+
+    this.showProgressBar=true
+    this.calendarPageService.getEntradasMonthYear(date.getMonth()+1, date.getFullYear())
+      .then((res: any)=>{
+        for (let i=0; i<res.data.length; i++){
+          if(res.data[i].entradas==null) res.data[i].entradas=[]
+        }
+        this.entradas_cp = res.data
+      })
+      .catch( (err) => {
+        console.log(err);
+      })
+      .finally(()=>{
+        this.showProgressBar=false
+      })
   } 
 
   goCalendarPage() {
@@ -357,6 +393,102 @@ export class MonthlyLogPage implements OnInit {
   
     this.taskService.atualizarEntrada(entrada)
       .then((res: any)=> {
+        console.log(res)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      .finally(()=>{
+        this.showProgressBar=false
+      })
+  }
+
+  getEntradaCP(id){
+    if(this.entradas_cp[id].entradas.length!=0){
+      return this.entradas_cp[id].entradas[0].descricao;
+    }
+  }
+
+  changeSignCP(id){
+    this.entradas_cp[id].entradas[0].cod_prioridade++
+    if(this.entradas_cp[id].entradas[0].cod_prioridade==4) this.entradas_cp[id].entradas[0].cod_prioridade=1
+    this.showProgressBar=true
+    this.calendarPageService.atualizarEntrada(this.entradas_cp[id].entradas[0])  
+      .then((res)=>{
+        console.log(res)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      .finally(()=>{
+        this.showProgressBar=false
+      })
+  }
+
+  async criarEntradaCP(id){
+    console.log("criando nova entrada")
+    const alert = await this.alertCtrl.create({
+      header: 'Nova anotação',
+      inputs: [
+        {
+          name: 'name',
+          type: 'text',
+          placeholder: 'Jantar com os amigos...'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, 
+        {
+          text: 'Ok',
+          handler: (data) => {
+          console.log('Confirm Ok');
+          console.log(data)
+          this.showProgressBar=true
+
+          this.calendarPageService.criarEntrada(data.name,id+1,this.page_month_year.mes,this.page_month_year.ano)
+            .then((res: any)=>{
+              console.log(res)
+              this.entradas_cp[id].entradas=[]
+              this.entradas_cp[id].entradas.push(res.data)
+            })
+            .catch((err)=>{
+              console.log(err)
+            })
+            .finally(()=>{
+              this.showProgressBar=false
+            })                 
+          }
+        }
+      ]
+    })
+    await alert.present();
+  }
+
+  deletarEntradaCP(id){
+    this.showProgressBar=true
+    this.calendarPageService.removerEntrada(this.entradas_cp[id].entradas[0].cod_entrada)
+      .then((res)=>{
+        this.entradas_cp[id].entradas=[]
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      .finally(()=>{
+        this.showProgressBar=false
+      })
+  }
+
+  atualizaDescricaoCP(entrada){
+    this.showProgressBar=true
+    this.calendarPageService.atualizarEntrada(entrada)
+      .then((res)=>{
         console.log(res)
       })
       .catch((err)=>{
