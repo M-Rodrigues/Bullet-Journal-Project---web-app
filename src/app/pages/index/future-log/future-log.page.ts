@@ -102,15 +102,18 @@ export class FutureLogPage implements OnInit {
     }
 
     this.atualizarEntrada(entrada, entrada_id, fl_id)
+  
   }
 
   atualizarTipoEntrada(entrada, entrada_id, fl_id) {
     entrada.cod_tipo = (entrada.cod_tipo % 2) + 1
     
     this.atualizarEntrada(entrada, entrada_id, fl_id)
+  
   }
 
-  atualizaStatusEntrada(cod, entrada, entrada_id, fl_id, meu_slide) {   
+  atualizaStatusEntrada(cod, entrada, entrada_id, fl_id, meu_slide) { 
+
     this.meu_fl[fl_id].entradas[entrada_id].cod_status = cod
     meu_slide.close()
 

@@ -11,6 +11,28 @@
 @import '~@ionic/angular/css/flex-utils.css';
 
 
+@font-face {
+  font-family: 'Patrick';
+  src: url('./assets/fonts/Patrick_Hand/PatrickHand-Regular.ttf');
+} 
+@font-face {
+  font-family: 'Gochi';
+  src: url('./assets/fonts/Gochi_Hand/GochiHand-Regular.ttf');
+} 
+@font-face {
+  font-family: 'Just Another';
+  src: url('./assets/fonts/Just_Another_Hand/JustAnotherHand-Regular.ttf');
+} 
+@font-face {
+  font-family: 'Cookie';
+  src: url('./assets/fonts/Cookie/Cookie-Regular.ttf');
+}   
+@font-face {
+  font-family: 'Satisfy';
+  src: url('./assets/fonts/Satisfy/Satisfy-Regular.ttf');
+} 
+  
+
 .bullet-icon{
     margin-right: 10px
 }
@@ -27,6 +49,10 @@
     --ion-color-pink-contrast-rgb: 255,255,255;
     --ion-color-pink-shade: #cc0f4d;
     --ion-color-pink-tint: #ea2969;
+
+    // --ion-font-family: 'Satisfy';
+    // --ion-font-family: 'Indie Flower', cursive;
+    --ion-font-family: 'Marck Script', cursive;
 }
 
 .ion-color-pink {
