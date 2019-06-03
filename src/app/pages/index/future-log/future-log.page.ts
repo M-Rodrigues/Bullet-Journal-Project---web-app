@@ -28,7 +28,7 @@ export class FutureLogPage implements OnInit {
 
 
 
-  
+
   async criarNovaEntrada(mes_atual, id) {
     console.log(mes_atual)
 
@@ -69,7 +69,6 @@ export class FutureLogPage implements OnInit {
 
     await alert.present();
   }
-
 
 
 
