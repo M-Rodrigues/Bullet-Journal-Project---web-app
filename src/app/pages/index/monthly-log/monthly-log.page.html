@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot='start'>
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button style="color:#FFFFFF"></ion-menu-button>
     </ion-buttons>
     <ion-title (click)='openPicker()'>{{page_month_year.nome_mes}}</ion-title>
     <ion-buttons slot="end" *ngIf="selectedPage==1">
-        <ion-icon name="add" (click)="criarNovaEntradaTaskPage()" size="large" style="color: rgb(27, 136, 27)"></ion-icon>
+        <ion-icon name="add" (click)="criarNovaEntradaTaskPage()" size="large" style="color:rgb(99, 139, 106);"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -19,18 +19,32 @@
             size='small'
             expand='full'
             shape='round'
-            color='tertiary'
+            style="--background:  #537A5A;"
             [fill]="selectedPage == 0 ? 'solid' : 'clear'" 
-            (click)='goCalendarPage()'>Calendar Page</ion-button>
+            (click)='goCalendarPage()'>
+            <div *ngIf="selectedPage == 1">
+              <ion-text style="color: #FFFFFF">Calendar Page</ion-text>
+            </div>
+            <div *ngIf="selectedPage == 0">
+                <ion-text style="color: #FFFFFF">Calendar Page</ion-text>
+            </div>
+          </ion-button>
           </ion-col>
           <ion-col size='6'>
             <ion-button 
             size='small'
             expand='full'
             shape='round'
-            color='tertiary'
+            style="--background:  #537A5A;"
             [fill]="selectedPage == 1 ? 'solid' : 'clear'" 
-            (click)='goTaskPage()'>Task Page</ion-button>
+            (click)='goTaskPage()'>
+            <div *ngIf="selectedPage == 0">
+                <ion-text style="color: #FFFFFF">Task Page</ion-text>
+              </div>
+              <div *ngIf="selectedPage == 1">
+                  <ion-text style="color: #FFFFFF">Task Page</ion-text>
+              </div>
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -96,7 +110,7 @@
                 {{element.dia}}
               </div> 
             </ion-col>
-            <ion-col size="1" style="--ion-grid-column-padding: 0px ">
+            <ion-col size="1" style="--ion-grid-column-padding: 0px; margin-top:2px">
               <div class="dia_semana">
                 {{element.dia_semana_nome[0]}}
               </div>
@@ -118,7 +132,7 @@
           </ion-item>
             <ion-item-options side="end">
                   <ng-container *ngIf="element.entradas.length==0; else existeEntrada">
-                      <ion-item-option (click)="criarEntradaCP(cp_id)" color="success">
+                      <ion-item-option (click)="criarEntradaCP(cp_id)" style="background-color:#537A5A;">
                           <ion-icon name="add-circle"></ion-icon>
                       </ion-item-option>
                   </ng-container>
@@ -187,7 +201,7 @@
                   </ion-item-option>
               </ion-item-options>
               <ion-item-options side="start">
-                  <ion-item-option color='success' (click)="changeStatusTask(tp_id)">
+                  <ion-item-option style="background-color: #537A5A" (click)="changeStatusTask(tp_id)">
                     <ion-icon name="checkmark-circle"></ion-icon>
                     <!-- Finalizada -->
                   </ion-item-option>

@@ -52,7 +52,9 @@
 
     // --ion-font-family: 'Satisfy';
     // --ion-font-family: 'Indie Flower', cursive;
-    --ion-font-family: 'Marck Script', cursive;
+    // --ion-font-family: 'Marck Script', cursive;
+    // --ion-font-family: 'Short Stack', cursive;
+    --ion-font-family: 'The Girl Next Door', cursive;
 }
 
 .ion-color-pink {
@@ -63,3 +65,17 @@
     --ion-color-shade: var(--ion-color-pink-shade) !important;
     --ion-color-tint: var(--ion-color-pink-tint) !important;
 }
+
+ion-card{
+  --ion-background-color: rgb(245, 225, 195);
+}
+
+ion-card-header{
+  background-color: rgb(245, 225, 195);
+}
+
+ion-toolbar{
+  --background: #383B53;
+  --color: rgb(255, 255, 255);
+}
+

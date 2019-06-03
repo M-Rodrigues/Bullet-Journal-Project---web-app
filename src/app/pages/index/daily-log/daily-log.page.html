@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot='start'>
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button style="color:#FFFFFF"></ion-menu-button>
     </ion-buttons>
     <ion-title>Daily Log</ion-title>
     <ion-buttons slot='end' *ngIf="showProgressBar">
@@ -19,7 +19,7 @@
     </ion-card-header>
 
     <ion-fab vertical="top" horizontal="end" slot="fixed">
-      <ion-fab-button color="light" translucent="true" (click)='criarNovaEntrada(do_dia, meu_dl_id)'>
+      <ion-fab-button style="--background: #537A5A;" translucent="true" (click)='criarNovaEntrada(do_dia, meu_dl_id)'>
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
