@@ -1,5 +1,5 @@
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Injectable } from '@angular/core';
-import { CalendarService } from './calendar.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class TaskPageService {
 
   constructor(
-    private calendarService : CalendarService,
+    private auth: AuthenticationService,
     private http : HttpClient
   ) { }
 
@@ -22,7 +22,7 @@ export class TaskPageService {
 
     }
   
-    return this.http.post(`${environment.SERVER_ADDR}/monthly-log/tp`, novaEntrada).toPromise()
+    return this.auth.checkAuth(this.http.post(`${environment.SERVER_ADDR}/monthly-log/tp`, novaEntrada).toPromise())
   }
 
   atualizarEntrada(entrada) {
@@ -38,11 +38,11 @@ export class TaskPageService {
     else if(entrada.irrelevant) body.cod_status = 5
     else body.cod_status = 1
 
-    return this.http.put(`${environment.SERVER_ADDR}/monthly-log/tp`, body).toPromise()
+    return this.auth.checkAuth(this.http.put(`${environment.SERVER_ADDR}/monthly-log/tp`, body).toPromise())
   }
 
   removerEntrada(cod_entrada) {
-    return this.http.delete(`${environment.SERVER_ADDR}/monthly-log/tp/${cod_entrada}`).toPromise()
+    return this.auth.checkAuth(this.http.delete(`${environment.SERVER_ADDR}/monthly-log/tp/${cod_entrada}`).toPromise())
   }
 
   apagarColeção() {
@@ -50,35 +50,6 @@ export class TaskPageService {
   }
 
   getEntradasMonthYear(month, year) {
-    return this.http.get(`${environment.SERVER_ADDR}/monthly-log/tp/${month}/${year}`).toPromise()
+    return this.auth.checkAuth(this.http.get(`${environment.SERVER_ADDR}/monthly-log/tp/${month}/${year}`).toPromise())
   }
-
-  // getEntradas() {
-  //   return [
-  //     {
-  //       name: "Preparar apresentação de Lab Prog",
-  //       signifierId: 0,
-  //       irrelevant: false,
-  //       complete: false
-  //     },
-  //     {
-  //       name: "Fazer trabalho de Microproc",
-  //       signifierId: 1,
-  //       irrelevant: false,
-  //       complete: false
-  //     },
-  //     {
-  //       name: "Estudar para as VFs",
-  //       signifierId: 2,
-  //       irrelevant: false,
-  //       complete: false
-  //     },
-  //     {
-  //       name: "Fazer trabalho de BD",
-  //       signifierId: 0,
-  //       irrelevant: false,
-  //       complete: false
-  //     }
-  //   ]
-  // }
 }
