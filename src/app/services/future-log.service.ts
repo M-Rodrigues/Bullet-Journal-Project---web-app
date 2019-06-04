@@ -1,3 +1,4 @@
+import { FutureLogInterface } from './../interfaces/colecoes/future-log';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -23,7 +24,7 @@ export class FutureLogService {
   /*  PUT /future-log
     ::  atualiza dados de uma entrada do future log
     */
-  atualizaEntrada(entrada) {
+  atualizarEntrada(entrada) {
     return this.auth.checkAuth(this.http.put(`${environment.SERVER_ADDR}/future-log`,entrada).toPromise())
   }
 
@@ -47,5 +48,9 @@ export class FutureLogService {
     */
    removerEntrada(cod_entrada) {
     return this.auth.checkAuth(this.http.delete(`${environment.SERVER_ADDR}/future-log/${cod_entrada}`).toPromise())
+  }
+
+  apagarColeção() {
+
   }
 }

@@ -75,7 +75,7 @@ export class FutureLogPage implements OnInit {
   atualizarEntrada(entrada, entrada_id, fl_id) {
     // Atualizar entrada no Servidor
     this.showProgressBar = true
-    this.FLService.atualizaEntrada(entrada)
+    this.FLService.atualizarEntrada(entrada)
       .then((res:any) => {
         if (res.status === 0) {
           this.meu_fl[fl_id].entradas[entrada_id] = entrada
