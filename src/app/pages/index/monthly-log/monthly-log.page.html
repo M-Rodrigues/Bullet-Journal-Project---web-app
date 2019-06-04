@@ -15,15 +15,15 @@
     <ion-grid>
       <ion-row align-items-center>
         <ion-col size='6'>
-          <ion-button
+          <ion-button round outline
             size='small'
             expand='full'
             shape='round'
-            style="--background:  #537A5A;"
+            style=" --background:#537A5A; --background-activated:rgba(83, 122, 90, 0.671);"
             [fill]="selectedPage == 0 ? 'solid' : 'clear'" 
             (click)='goCalendarPage()'>
             <div *ngIf="selectedPage == 1">
-              <ion-text style="color: #FFFFFF">Calendar Page</ion-text>
+              <ion-text style="color: #000000">Calendar Page</ion-text>
             </div>
             <div *ngIf="selectedPage == 0">
                 <ion-text style="color: #FFFFFF">Calendar Page</ion-text>
@@ -35,11 +35,11 @@
             size='small'
             expand='full'
             shape='round'
-            style="--background:  #537A5A;"
+            style="--background: #537A5A;  --background-activated:rgba(83, 122, 90, 0.671);"
             [fill]="selectedPage == 1 ? 'solid' : 'clear'" 
             (click)='goTaskPage()'>
             <div *ngIf="selectedPage == 0">
-                <ion-text style="color: #FFFFFF">Task Page</ion-text>
+                <ion-text style="color: #000000">Task Page</ion-text>
               </div>
               <div *ngIf="selectedPage == 1">
                   <ion-text style="color: #FFFFFF">Task Page</ion-text>
@@ -132,7 +132,7 @@
           </ion-item>
             <ion-item-options side="end">
                   <ng-container *ngIf="element.entradas.length==0; else existeEntrada">
-                      <ion-item-option (click)="criarEntradaCP(cp_id)" style="background-color:#537A5A;">
+                      <ion-item-option (click)="criarEntradaCP(cp_id)" style="background-color: #618E69">
                           <ion-icon name="add-circle"></ion-icon>
                       </ion-item-option>
                   </ng-container>

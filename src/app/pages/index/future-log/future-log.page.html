@@ -27,7 +27,7 @@
     <ion-list>
       <ion-item-sliding *ngFor='let entrada of mes_atual.entradas; let entrada_id = index' #slide>
         <ion-item-options side="start">
-          <ion-item-option color='secondary' (click)='atualizaStatusEntrada(1,entrada,entrada_id,meu_fl_id,slide)'>
+          <ion-item-option style="background-color: #74A4BC" (click)='atualizaStatusEntrada(1,entrada,entrada_id,meu_fl_id,slide)'>
             <ion-icon name="book" icon-only></ion-icon>
           </ion-item-option>
           <ion-item-option color='warning' (click)='atualizaStatusEntrada(5,entrada,entrada_id,meu_fl_id,slide)'>
